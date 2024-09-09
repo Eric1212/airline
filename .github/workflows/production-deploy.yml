@@ -48,7 +48,7 @@ jobs:
           script_stop: true
           source: "."
           strip_components: 0
-          target: "/var/www/flight.jcf.al/airline/"
+          target: "/var/www/${{ secrets.production_host }}/airline/"
       - name: Build java, restart server
         uses: appleboy/ssh-action@v0.1.10
         with:
@@ -58,7 +58,7 @@ jobs:
           port: 22
           script_stop: true
           script: |
-            cd /var/www/flight.jcf.al/airline/airline-data/
+            cd /var/www/${{ secrets.production_host }}/airline/airline-data/
             bash activator publishLocal
       # killall -9 java
 
