@@ -38,7 +38,7 @@ jobs:
       #     asset_path: ./cwt-spring/target/cwt-spring-SNAPSHOT.jar
       #     asset_name: cwt-spring.jar
       #     asset_content_type: application/java-archive
-      - name: SCP to Contabo
+      - name: SCP to Prod
         uses: appleboy/scp-action@master
         with:
           host: ${{ secrets.production_host }}
@@ -48,7 +48,7 @@ jobs:
           script_stop: true
           source: "."
           strip_components: 0
-          target: "/var/www/myfly.club/airline/"
+          target: "/var/www/flight.jcf.al/airline/"
       - name: Build java, restart server
         uses: appleboy/ssh-action@v0.1.10
         with:
@@ -58,7 +58,7 @@ jobs:
           port: 22
           script_stop: true
           script: |
-            cd /var/www/myfly.club/airline/airline-data/
+            cd /var/www/flight.jcf.al/airline/airline-data/
             bash activator publishLocal
       # killall -9 java
 
