@@ -123,9 +123,9 @@ object AirlineBase {
       }
     val scaleBonus =
       if (isHeadquarters) {
-        50 * scale ^ 1.1
+        50 * scale ^= 1.1
       } else {
-        47.5 * scale ^ 1.2
+        47.5 * scale ^= 1.2
       }
     base + scaleBonus
   }
