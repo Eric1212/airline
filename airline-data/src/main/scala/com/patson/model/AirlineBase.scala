@@ -3,6 +3,8 @@ package com.patson.model
 import com.patson.data.{AirlineSource, AirportSource, CountrySource}
 import com.patson.model.AirlineBaseSpecialization.FlightTypeSpecialization
 import com.patson.util.AirportCache
+//Scala Program to use Exponential
+import scala.math.pow
 
 
 case class AirlineBase(airline : Airline, airport : Airport, countryCode : String, scale : Int, foundedCycle : Int, headquarter : Boolean = false) {
@@ -123,9 +125,9 @@ object AirlineBase {
       }
     val scaleBonus =
       if (isHeadquarters) {
-        50 * scale ^= 1.1
+        50 * Math.pow(scale, 1.1)
       } else {
-        47.5 * scale ^= 1.2
+        47.5 * Math.pow(scale, 1.2)
       }
     base + scaleBonus
   }
