@@ -2,6 +2,7 @@ package com.patson
 
 import com.patson.model._
 import com.patson.data._
+import com.patson.LoanInterestRateSimulation._
 
 import scala.collection.mutable._
 import scala.collection.immutable
