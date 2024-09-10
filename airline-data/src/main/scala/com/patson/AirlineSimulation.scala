@@ -287,7 +287,7 @@ object AirlineSimulation {
         othersSummary.put(OtherIncomeItemType.DEPRECIATION, -1 * unassignedAirplanesDepreciation) //not a cash expense
 
         val negativeCashInterest = if (airlineValue.existingBalance < 0) {
-          (airlineValue.existingBalance * nextRate / 52).toLong //give high interest
+          (airlineValue.existingBalance * getNextRate(rates) / 52).toLong //give high interest
         } else {
           0L
         }
