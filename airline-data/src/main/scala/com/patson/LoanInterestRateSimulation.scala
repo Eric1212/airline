@@ -64,8 +64,10 @@ object LoanInterestRateSimulation {
         case None => 0
       }
       simulateNextRate(previousRates.last, previousDelta)
+      val OVERDRAFT_RATE = simulateNextRate(previousRates.last, previousDelta)
     } else { //same rate as previous one
       previousRates.last
+      val OVERDRAFT_RATE = previousRates.last
     }
   }
 
@@ -110,6 +112,5 @@ object LoanInterestRateSimulation {
      }
      //BigDecimal(newPrice).setScale(2, BigDecimal.RoundingMode.HALF_UP).toDouble
      newRate
-    val OVERDRAFT_RATE = newRate
   }
 }
