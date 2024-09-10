@@ -604,7 +604,7 @@ object PassengerSimulation {
                 connectionCost += (7 * 24 * 3) / frequency //$3.00 per hour wait; $36 @ 14 freq
               }
 
-              if (previousLinkAirlineId ==  currentLinkAirlineId || allianceIdByAirlineId.get(previousLinkAirlineId) == allianceIdByAirlineId.get(currentLinkAirlineId))) { //same alliance or airline, 30 % less perceived cost
+              if (previousLinkAirlineId == currentLinkAirlineId || allianceIdByAirlineId.get(previousLinkAirlineId) == allianceIdByAirlineId.get(currentLinkAirlineId))) { //same alliance or airline, 30 % less perceived cost
                  connectionCost -= fromCost*0.3
               }
               
