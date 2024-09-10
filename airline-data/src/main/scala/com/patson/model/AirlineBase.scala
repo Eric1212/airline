@@ -3,8 +3,7 @@ package com.patson.model
 import com.patson.data.{AirlineSource, AirportSource, CountrySource}
 import com.patson.model.AirlineBaseSpecialization.FlightTypeSpecialization
 import com.patson.util.AirportCache
-import scala.math
-
+import scala.math._
 
 case class AirlineBase(airline : Airline, airport : Airport, countryCode : String, scale : Int, foundedCycle : Int, headquarter : Boolean = false) {
   lazy val getValue : Long = {
