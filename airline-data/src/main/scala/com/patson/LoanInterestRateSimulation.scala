@@ -110,9 +110,9 @@ object LoanInterestRateSimulation {
      }
      //BigDecimal(newPrice).setScale(2, BigDecimal.RoundingMode.HALF_UP).toDouble
      newRate
-    val writer = new PrintWriter(new File("EXPORT_newRate.txt" ))
-writer.write(newRate)
-writer.close()
+    val FileWriter = new FileWriter(new File("EXPORT_newRate.txt"))
+FileWriter.write(newRate)
+FileWriter.close()
   }
 val OVERDRAFT_RATE = scala.io.Source.fromFile("EXPORT_newRate.txt").mkString
 }
