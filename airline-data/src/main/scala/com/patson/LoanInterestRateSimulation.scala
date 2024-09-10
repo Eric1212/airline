@@ -80,7 +80,7 @@ object LoanInterestRateSimulation {
   var OVERDRAFT_RATE : BigDecimal = 0.14
   
   def simulateNextRate(previousRate : BigDecimal, previousDelta : BigDecimal) : BigDecimal = {
-     var newDelta = (Random.nextInt((MAX_DELTA / RATE_STEP).toInt) + 1) * RATE_STEP
+     var newDelta : BigDecimal = (Random.nextInt((MAX_DELTA / RATE_STEP).toInt) + 1) * RATE_STEP
 
      if (Random.nextBoolean()) {
        newDelta *= -1 //could either go up or down
