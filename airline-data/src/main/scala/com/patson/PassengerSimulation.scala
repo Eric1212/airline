@@ -578,7 +578,7 @@ object PassengerSimulation {
           var connectionCost = 10.0
           var isValid : Boolean = true
           val fromCost = distanceMap.get(linkConsideration.from.id)
-          var flightTransit = false
+          var flightTransit : Boolean = false
           if (predecessorLinkConsideration != null) { //then it should be a connection flight
             val predecessorLink = predecessorLinkConsideration.link
             val previousLinkAirlineId = predecessorLink.airline.id
