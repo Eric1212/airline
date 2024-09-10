@@ -78,7 +78,6 @@ object LoanInterestRateSimulation {
   val BOUNDARY_ZONE_DELTA_ADJUSTMENT = 0.005 // 0.5% adjustment if it's considered in abnormal range (ie > HIGH or < LOW threshold)
   val HIGH_RATE_THRESHOLD = MAX_RATE - (MAX_RATE - MIN_RATE) * BOUNDARY_ZONE_FACTOR_HIGH
   val LOW_RATE_THRESHOLD = MIN_RATE + (MAX_RATE - MIN_RATE) * BOUNDARY_ZONE_FACTOR_LOW
-  val OVERDRAFT_RATE = simulateNextRate.newRate
   
   def simulateNextRate(previousRate : BigDecimal, previousDelta : BigDecimal) : BigDecimal = {
      var newDelta : BigDecimal = (Random.nextInt((MAX_DELTA / RATE_STEP).toInt) + 1) * RATE_STEP
@@ -111,5 +110,6 @@ object LoanInterestRateSimulation {
      }
      //BigDecimal(newPrice).setScale(2, BigDecimal.RoundingMode.HALF_UP).toDouble
      newRate
+    val OVERDRAFT_RATE = newRate
   }
 }
