@@ -5,7 +5,7 @@ import scala.math._
 import com.patson.data._
 import com.patson.model.Bank
 import com.patson.model.bank.LoanInterestRate
-
+import java.io._
 import scala.util.Random
 
 object LoanInterestRateSimulation {
@@ -64,10 +64,8 @@ object LoanInterestRateSimulation {
         case None => 0
       }
       simulateNextRate(previousRates.last, previousDelta)
-      val OVERDRAFT_RATE = simulateNextRate(previousRates.last, previousDelta)
     } else { //same rate as previous one
       previousRates.last
-      val OVERDRAFT_RATE = previousRates.last
     }
   }
 
@@ -112,5 +110,9 @@ object LoanInterestRateSimulation {
      }
      //BigDecimal(newPrice).setScale(2, BigDecimal.RoundingMode.HALF_UP).toDouble
      newRate
+    val writer = new PrintWriter(new File("EXPORT_newRate.txt" ))
+writer.write(newRate)
+writer.close()
   }
+val OVERDRAFT_RATE = scala.io.Source.fromFile("EXPORT_newRate.txt").mkString
 }
