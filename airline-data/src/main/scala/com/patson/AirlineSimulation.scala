@@ -286,11 +286,8 @@ object AirlineSimulation {
         val unassignedAirplanesDepreciation = allAirplanesDepreciation - linksDepreciation //account depreciation on planes that are without assigned links
         othersSummary.put(OtherIncomeItemType.DEPRECIATION, -1 * unassignedAirplanesDepreciation) //not a cash expense
 
-      val currentCycle = CycleSource.loadCycle()
-    val rates = BankSource.loadLoanInterestRatesFromCycle(currentCycle - 100).sortBy(_.cycle)
-      
         val negativeCashInterest = if (airlineValue.existingBalance < 0) {
-          (airlineValue.existingBalance * rates / 52).toLong //give high interest
+          (airlineValue.existingBalance * JsNumber(loan.annualRate) / 52).toLong //give high interest
         } else {
           0L
         }
