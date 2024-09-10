@@ -102,7 +102,7 @@ object LoanInterestRateSimulation {
       newDelta = MAX_DELTA * -1
     }
 
-     var newRate : BigDecimal = previousRate + newDelta
+     var newRate = previousRate + newDelta
      if (newRate > MAX_RATE) {
        newRate = MAX_RATE
      } else if (newRate < MIN_RATE) {
