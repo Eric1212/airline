@@ -1,6 +1,7 @@
 package com.patson
 
 import java.math.MathContext
+import scala.math._
 import com.patson.data._
 import com.patson.model.Bank
 import com.patson.model.bank.LoanInterestRate
