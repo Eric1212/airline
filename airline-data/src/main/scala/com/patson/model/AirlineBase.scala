@@ -56,9 +56,9 @@ case class AirlineBase(airline : Airline, airport : Airport, countryCode : Strin
       0
     } else {
       val delta = staffRequired - getOfficeStaffCapacity
-      var compensation = 0
+      var compensation = 0.0
       val income = CountrySource.loadCountryByCode(countryCode).map(_.income).getOrElse(0)
-      compensation += delta * (50000 + income) / 52 * 1.5 //weekly compensation, *1.5 as hourly rate for overtime is 150% normal wage
+      compensation += delta * (50000.0 + income) / 52 * 1.5 //weekly compensation, *1.5 as hourly rate for overtime is 150% normal wage
 
       compensation
     }
