@@ -102,7 +102,7 @@ object LoanInterestRateSimulation {
       newDelta = MAX_DELTA * -1
     }
 
-     var newRate = previousRate + newDelta
+     var newRate : BigDecimal = previousRate + newDelta
      if (newRate > MAX_RATE) {
        newRate = MAX_RATE
      } else if (newRate < MIN_RATE) {
@@ -110,9 +110,9 @@ object LoanInterestRateSimulation {
      }
      //BigDecimal(newPrice).setScale(2, BigDecimal.RoundingMode.HALF_UP).toDouble
      newRate
-    val FileWriter = new FileWriter(new File("EXPORT_newRate.txt"))
+    val FileWriter : BigDecimal = new FileWriter(new File("EXPORT_newRate.txt"))
 FileWriter.write(newRate)
 FileWriter.close()
   }
-val OVERDRAFT_RATE = scala.io.Source.fromFile("EXPORT_newRate.txt").mkString
+val OVERDRAFT_RATE : BigDecimal = scala.io.Source.fromFile("EXPORT_newRate.txt").mkString
 }
