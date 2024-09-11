@@ -615,8 +615,9 @@ object PassengerSimulation {
             }
 
     
-           if (flightTransit = false) { //if one airline (no transfer)) then should be treated as same airline or alliance.
-              connectionCost -= fromCost*0.3
+           if (flightTransit) { //if one airline (no transfer)) then should be treated as same airline or alliance.
+           } else {
+             connectionCost -= fromCost*0.3
             }
           
             //connection cost should take into consideration of preferred link class too
