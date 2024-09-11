@@ -5,6 +5,7 @@ import com.patson.data._
 import com.patson.LoanInterestRateSimulation._
 
 import scala.collection.mutable._
+import scala.math._
 import scala.collection.immutable
 import scala.concurrent.Await
 import scala.concurrent.duration.Duration
@@ -74,11 +75,12 @@ object AirlineSimulation {
 
     allAirlines.foreach { airline =>
         val airlineStat = airlineStats.find(_.airlineId == airline.id).getOrElse(AirlineStat(airline.id,0,0,0,0,0))
-        var totalCashRevenue = 0L
-        var totalCashExpense = 0L
-        var linksDepreciation = 0L
-        val othersSummary = Map[OtherIncomeItemType.Value, Long]()
-        val airlineValue = Computation.getResetAmount(airline.id)
+        var totalCashRevenue: BigDecimal = BigDecimal(0)
+        var totalCashExpense: BigDecimal = BigDecimal(0)
+        var linksDepreciation: BigDecimal = BigDecimal(0)
+        val othersSummary: mutable.Map[OtherIncomeItemType.Value, BigDecimal] = mutable.Map()
+        val airlineValue: BigDecimal = BigDecimal(Computation.getResetAmount(airline.id))
+
 
         //update reputation && stock price
         val currentReputation = airline.getReputation()
@@ -167,14 +169,15 @@ object AirlineSimulation {
         reputationBreakdowns.append(ReputationBreakdown(ReputationType.LEADERBOARD_BONUS, reputationBonusFromLeaderboards))
 
         //stock price
-        var dividendsFunding = airline.getWeeklyDividends()
-        if (airlineValue.existingBalance < MINIMUM_CASH_BALANCE_STOCKS + dividendsFunding) {
-          airline.setWeeklyDividends(0)
-          dividendsFunding = 0
-        }
-        othersSummary.put(OtherIncomeItemType.DIVIDENDS, dividendsFunding.toLong * -1)
-        totalCashExpense += dividendsFunding
 
+val dividendsFunding = BigDecimal(airline.getWeeklyDividends())
+if (BigDecimal(airlineValue.existingBalance) < MINIMUM_CASH_BALANCE_STOCKS + dividendsFunding) {
+  airline.setWeeklyDividends(0)
+  dividendsFunding = BigDecimal(0)
+}
+othersSummary.put(OtherIncomeItemType.DIVIDENDS, dividendsFunding * BigDecimal(-1))
+totalCashExpense += dividendsFunding
+      
         val oldStockPrice = airline.getStockPrice()
         val exStockBreakdowns = ReputationBreakdowns(reputationBreakdowns.toList)
         val companySentiment = exStockBreakdowns.total - currentReputation + ThreadLocalRandom.current().nextDouble(0.1)
@@ -259,7 +262,7 @@ object AirlineSimulation {
 
         //overtime compensation
         val linksByFromAirportId = allFlightLinksByAirlineId.get(airline.id).getOrElse(List.empty).groupBy(_.from.id)
-        var overtimeCompensation = 0.0
+        val overtimeCompensation: BigDecimal = BigDecimal(0)
         airline.bases.foreach { base =>
           val staffRequired = linksByFromAirportId.get(base.airport.id) match {
             case Some(links) => links.map(_.getCurrentOfficeStaffRequired).sum
@@ -276,8 +279,8 @@ object AirlineSimulation {
           overtimeCompensation += compensationOfThisBase
         }
 
-        othersSummary.put(OtherIncomeItemType.OVERTIME_COMPENSATION, -1 * overtimeCompensation) //negative number
-        totalCashExpense += overtimeCompensation
+        othersSummary.put(OtherIncomeItemType.OVERTIME_COMPENSATION, overtimeCompensation * BigDecimal(-1))
+totalCashExpense += overtimeCompensation
 
 
         val allAirplanesDepreciation = airplanesByAirline.getOrElse(airline.id, List.empty).foldLeft(0L) {
