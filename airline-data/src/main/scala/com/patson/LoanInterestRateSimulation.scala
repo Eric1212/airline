@@ -110,7 +110,7 @@ object LoanInterestRateSimulation {
      }
      //BigDecimal(newPrice).setScale(2, BigDecimal.RoundingMode.HALF_UP).toDouble
      newRate
-    val FileWriter : BigDecimal = new FileWriter(new File("EXPORT_newRate.txt"))
+    val FileWriter = new FileWriter(new File("EXPORT_newRate.txt"))
 FileWriter.write(newRate)
 FileWriter.close()
   }
