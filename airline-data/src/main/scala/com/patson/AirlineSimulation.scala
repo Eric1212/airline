@@ -10,6 +10,7 @@ import scala.concurrent.Await
 import scala.math._
 import scala.concurrent.duration.Duration
 import com.patson.model.airplane.Airplane
+import com.patson.model.notice.GameOverNotice
 import com.patson.model.oil.OilPrice
 import com.patson.model.oil.OilInventoryPolicy
 import com.patson.model.oil.OilConsumptionHistory
@@ -208,6 +209,7 @@ object AirlineSimulation {
           //todd: add public notice of bankruptcy with stats
           println(s"Resetting $airline due to negative value")
           Airline.resetAirline(airline.id, newBalance = resetBalance)
+          NoticeSource.saveTrackingNotice(airline.id, GameOverNotice())
         }
 
         val linksIncome = flightLinkResultByAirline.get(airline.id) match {
