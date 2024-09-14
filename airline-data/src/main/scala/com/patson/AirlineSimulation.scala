@@ -280,7 +280,7 @@ object AirlineSimulation {
         }
 
         othersSummary.put(OtherIncomeItemType.OVERTIME_COMPENSATION, -1 * overtimeCompensation) //negative number
-        totalCashExpense += overtimeCompensation
+        totalCashExpense.toInt += overtimeCompensation.toInt
 
 
         val allAirplanesDepreciation = airplanesByAirline.getOrElse(airline.id, List.empty).foldLeft(0L) {
