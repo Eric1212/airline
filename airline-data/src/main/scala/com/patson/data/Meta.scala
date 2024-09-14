@@ -861,7 +861,7 @@ object Meta {
       "asset_revenue LONG, " +
       "fuel_profit LONG, " +
       "depreciation LONG," +
-      "overtime_compensation LONG," +
+      "overtime_compensation DOUBLE," +
       "period INTEGER," +
       "cycle INTEGER," +
       "PRIMARY KEY (airline, period, cycle)" +
