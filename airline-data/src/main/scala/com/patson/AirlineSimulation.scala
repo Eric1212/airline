@@ -262,7 +262,7 @@ object AirlineSimulation {
 
         //overtime compensation
         val linksByFromAirportId = allFlightLinksByAirlineId.get(airline.id).getOrElse(List.empty).groupBy(_.from.id)
-        var overtimeCompensation : Long = 0
+        var overtimeCompensation = 0
         airline.bases.foreach { base =>
           val staffRequired = linksByFromAirportId.get(base.airport.id) match {
             case Some(links) => links.map(_.getCurrentOfficeStaffRequired).sum
