@@ -4,5 +4,4 @@
 *.scala-build
 *.vscode
 .idea
-
 *.iml
