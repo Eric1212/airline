@@ -21,7 +21,7 @@ Live at https://www.airline-club.com/
 1. For airport image search and email service for user pw reset - refer to https://github.com/patsonluk/airline/blob/master/airline-web/README
 1. Now run the background simulation by staying in `airline-data`, run `activator run`, select option `MainSimulation`. It should now run the backgroun simulation
 1. Open another terminal, navigate to `airline-web`, run the web server by `activator run`
-1. The application should be accessible at `localhost:9000`
+1. The application should be accessible at `localhost:80`
 
 ## Nginx Proxy w/ Cloudflare HTTPS
 
@@ -60,7 +60,7 @@ server {
   }
 
   location / {
-    proxy_pass http://localhost:9000;
+    proxy_pass http://localhost:80;
     proxy_pass_header Content-Type;
     proxy_read_timeout     60;
     proxy_connect_timeout  60;

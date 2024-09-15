@@ -112,7 +112,7 @@ var isFromEmoji = false; //yike ugly!
 var ws
 
 angular.module("ChatApp", []).controller("ChatController", function($scope, $timeout){
-   // var ws = new WebSocket("ws://localhost:9000/chat");
+   // var ws = new WebSocket("ws://localhost:80/chat");
    // connect to websockets endpoint of our server
     var port = window.location.port
     var limit = new RateLimit(60)

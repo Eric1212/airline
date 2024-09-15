@@ -182,7 +182,7 @@ class AirlineApplication @Inject()(cc: ControllerComponents) extends AbstractCon
     Ok(Json.toJson(airlinesByUser.toList.map {
       case(airline, user) => (airline, user, userStatusMap.get(user), airline.getAllianceId.map(alliances(_)), airlineModifiers.getOrElse(airline.id, List.empty), request.user.isAdmin)
     })).withHeaders(
-      ACCESS_CONTROL_ALLOW_ORIGIN -> "http://localhost:9000",
+      ACCESS_CONTROL_ALLOW_ORIGIN -> "http://localhost:80",
       "Access-Control-Allow-Credentials" -> "true"
     )
   }
