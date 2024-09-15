@@ -262,7 +262,7 @@ object AirlineSimulation {
 
         //overtime compensation
         val linksByFromAirportId = allFlightLinksByAirlineId.get(airline.id).getOrElse(List.empty).groupBy(_.from.id)
-        var overtimeCompensation = 0
+        var overtimeCompensation = 0L
         airline.bases.foreach { base =>
           val staffRequired = linksByFromAirportId.get(base.airport.id) match {
             case Some(links) => links.map(_.getCurrentOfficeStaffRequired).sum
@@ -274,13 +274,13 @@ object AirlineSimulation {
             case None => None
           }
           val staffCapacity = base.getOfficeStaffCapacity
-          val compensationOfThisBase = base.getOvertimeCompensation(staffRequired)
+          val compensationOfThisBase : Long = base.getOvertimeCompensation(staffRequired)
 //          val compensationOfThisBase = if(airline.isGenerated) 0 else base.getOvertimeCompensation(staffRequired)
-          overtimeCompensation.toDouble = overtimeCompensation.toDouble + compensationOfThisBase.toDouble
+          overtimeCompensation += compensationOfThisBase
         }
 
         othersSummary.put(OtherIncomeItemType.OVERTIME_COMPENSATION, -1 * overtimeCompensation) //negative number
-        totalCashExpense.toDouble = totalCashExpense.toDouble + overtimeCompensation.toDouble
+        totalCashExpense += overtimeCompensation
 
 
         val allAirplanesDepreciation = airplanesByAirline.getOrElse(airline.id, List.empty).foldLeft(0L) {
