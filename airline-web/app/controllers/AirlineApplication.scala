@@ -18,7 +18,7 @@ import javax.inject.Inject
 import scala.collection.immutable.SortedSet
 import scala.collection.mutable
 import scala.concurrent.duration.{DAYS, Duration, MILLISECONDS}
-import scala.util.{Failure, Success, Try}
+import scala.util._
 
 
 class AirlineApplication @Inject()(cc: ControllerComponents) extends AbstractController(cc) {
@@ -263,7 +263,7 @@ class AirlineApplication @Inject()(cc: ControllerComponents) extends AbstractCon
 
         val targetBase = existingBase match {
           case Some(base) => base.copy(scale = base.scale + 1)
-          case None => AirlineBase(airline = request.user, airport = airport, countryCode = airport.countryCode, scale = 1, foundedCycle = CycleSource.loadCycle(), headquarter = request.user.getHeadQuarter.isEmpty)
+          case None => AirlineBase(airline = request.user, airport = airport, countryCode = airport.countryCode, scale = 1, foundedCycle = CycleSource.loadCycle().toString.toInt, headquarter = request.user.getHeadQuarter.isEmpty)
         }
 
         result = result + ("targetBase" -> Json.toJson(targetBase))
@@ -310,9 +310,7 @@ class AirlineApplication @Inject()(cc: ControllerComponents) extends AbstractCon
     else if (cost <= airline.getBalance && delegatesAssignedToThisCountry.length < requiredDelegates) {
       return Some("Cannot build/upgrade this base, it require $requiredDelegates delegate(s) assigned to ${CountryCache.getCountry(targetBase.countryCode).get.name} but only ${delegatesAssignedToThisCountry.length} assigned.")
     }
-    return None
-  }
-    
+
     if (targetBase.scale < 1) {
       return Some(s"Invalid scale ${targetBase.scale}")
     }
@@ -349,7 +347,8 @@ class AirlineApplication @Inject()(cc: ControllerComponents) extends AbstractCon
         }
       }
     }
-
+    return None
+  }
 
    def getLoungeConsideration(airline : Airline, inputFacility : AirportFacility) : Consideration[Lounge] = {
      val airport = inputFacility.airport
@@ -360,7 +359,7 @@ class AirlineApplication @Inject()(cc: ControllerComponents) extends AbstractCon
         val cost = newLounge.getValue - lounge.getValue
         (cost, newLounge, inputFacility.level - lounge.level)
       case None =>
-        val newLounge = Lounge(airline, airline.getAllianceId, airport, name = inputFacility.name, level = 1, LoungeStatus.ACTIVE, CycleSource.loadCycle())
+        val newLounge = Lounge(airline, airline.getAllianceId, airport, name = inputFacility.name, level = 1, LoungeStatus.ACTIVE, CycleSource.loadCycle().toString.toInt)
         val cost = newLounge.getValue
         (cost, newLounge, inputFacility.level)
      }
@@ -541,7 +540,7 @@ class AirlineApplication @Inject()(cc: ControllerComponents) extends AbstractCon
                    BadRequest("airport id " +  inputBase.airport.id + " not found!")
                  } {
                    airport => //TODO for now. Maybe update to Ad event later on
-                   val newBase = inputBase.copy(foundedCycle = CycleSource.loadCycle(), countryCode = airport.countryCode)
+                   val newBase = inputBase.copy(foundedCycle = CycleSource.loadCycle().toString.toInt, countryCode = airport.countryCode)
                    AirlineSource.saveAirlineBase(newBase)
 
                    airline.setCountryCode(newBase.countryCode)
@@ -577,7 +576,7 @@ class AirlineApplication @Inject()(cc: ControllerComponents) extends AbstractCon
                     AirportCache.getAirport(inputBase.airport.id, true).fold {
                          BadRequest("airport id " +  inputBase.airport.id + " not found!")
                     } { airport =>
-                      val newBase = inputBase.copy(foundedCycle = CycleSource.loadCycle(), countryCode = airport.countryCode)
+                      val newBase = inputBase.copy(foundedCycle = CycleSource.loadCycle().toString.toInt, countryCode = airport.countryCode)
                       newBase.allowAirline(airline) match {
                         case Left(requiredTitle) =>
                           if (airport.isGateway()) {
@@ -1158,11 +1157,11 @@ class AirlineApplication @Inject()(cc: ControllerComponents) extends AbstractCon
   def setBaseSpecializations(airlineId: Int, airportId : Int) = AuthenticatedAirline(airlineId) { request =>
     val inputSpecializations = request.body.asInstanceOf[AnyContentAsJson].json.\("selectedSpecializations").as[List[String]].map(AirlineBaseSpecialization.withName(_))
 
-    val cooldown =
+    val cooldown : Long =
       AirportSource.loadAirportBaseSpecializationsLastUpdate(airportId, airlineId).map { lastUpdate =>
         val currentCycle = CycleSource.loadCycle()
         BaseSpecializationType.COOLDOWN + lastUpdate - currentCycle
-      }.getOrElse(0)
+      }.getOrElse(0).toString.toLong
 
     if (cooldown > 0) {
       BadRequest(s"cooldown $cooldown")
