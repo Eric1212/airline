@@ -1,16 +1,15 @@
 package controllers
 
-import com.patson.data.{AirlineSource, AirportSource, AllianceSource, CountrySource, CycleSource, DelegateSource, LinkSource, NegotiationSource}
+import com.patson.data._
 import com.patson.model
-import com.patson.model.FlightCategory.DOMESTIC
 import com.patson.model.FlightType._
 import com.patson.model.Title.APPROVED_AIRLINE
 import com.patson.model.airplane.Model.Type.HELICOPTER
-import com.patson.model.{LinkNegotiationDelegateTask, _}
 import com.patson.model.airplane._
 import com.patson.model.negotiation.LinkNegotiationDiscount
-import com.patson.util.{AirportCache, ChampionUtil, CountryCache}
-import controllers.NegotiationDiscountType.{ALLIANCE_BASE, BASE, BELOW_CAPACITY, COUNTRY_RELATIONSHIP, LOYALTY, MAIDEN_INTERNATIONAL, NEW_AIRLINE, OVER_CAPACITY, PREVIOUS_NEGOTIATION}
+import com.patson.model.{LinkNegotiationDelegateTask, _}
+import com.patson.util.{ChampionUtil, CountryCache}
+import controllers.NegotiationDiscountType.{ALLIANCE_BASE, BASE, BELOW_CAPACITY, COUNTRY_RELATIONSHIP, LOYALTY, MAIDEN_INTERNATIONAL, NEW_AIRLINE, OVER_CAPACITY}
 
 import scala.collection.mutable.ListBuffer
 import scala.math.BigDecimal.RoundingMode
@@ -89,7 +88,7 @@ object NegotiationUtil {
     val airport = newLink.from
     val baseOption = airline.getBases().find(_.airport.id == airport.id)
 
-    val officeStaffCount : Int = baseOption.map(_.getOfficeStaffCapacity).getOrElse(0)
+    val officeStaffCount : Double = baseOption.map(_.getOfficeStaffCapacity).getOrElse(0)
     val airlineLinksFromThisAirport = airlineLinks.filter(link => link.from.id == airport.id && (isNewLink || link.id != existingLinkOption.get.id))
     val currentOfficeStaffUsed = airlineLinksFromThisAirport.map(_.getFutureOfficeStaffRequired).sum
     val newOfficeStaffRequired = newLink.getFutureOfficeStaffRequired
@@ -467,7 +466,7 @@ object NegotiationUtil {
       if (discount == 0) { //at least 1%
         discount = BigDecimal(0.01)
       }
-      Some(LinkNegotiationDiscount(link.airline, link.from, link.to, discount, CycleSource.loadCycle() + LinkNegotiationDiscount.DURATION))
+      Some(LinkNegotiationDiscount(link.airline, link.from, link.to, discount, CycleSource.loadCycle().toString.toInt + LinkNegotiationDiscount.DURATION.toInt))
     } else {
       None
     }
@@ -622,7 +621,7 @@ case class NegotiationCooldownBonus(delegates : List[BusyDelegate], cooldownDisc
 case class NegotiationLoyaltyBonus(airport : Airport, loyaltyBonus: Double, duration : Int, description : String, val intensity: Int) extends NegotiationBonus {
   def apply(airline : Airline) = {
     val cycle = CycleSource.loadCycle()
-    AirportSource.saveAirlineAppealBonus(airport.id, airline.id, AirlineBonus(BonusType.NEGOTIATION_BONUS, AirlineAppeal(loyalty = loyaltyBonus), Some(cycle + duration)))
+    AirportSource.saveAirlineAppealBonus(airport.id, airline.id, AirlineBonus(BonusType.NEGOTIATION_BONUS, AirlineAppeal(loyalty = loyaltyBonus), Some(cycle.toString.toInt + duration.toString.toInt)))
   }
 }
 
