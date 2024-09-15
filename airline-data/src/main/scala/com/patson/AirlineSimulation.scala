@@ -276,11 +276,11 @@ object AirlineSimulation {
           val staffCapacity = base.getOfficeStaffCapacity
           val compensationOfThisBase = base.getOvertimeCompensation(staffRequired)
 //          val compensationOfThisBase = if(airline.isGenerated) 0 else base.getOvertimeCompensation(staffRequired)
-          overtimeCompensation.toDouble += compensationOfThisBase.toDouble
+          overtimeCompensation.toLong += compensationOfThisBase.toLong
         }
 
         othersSummary.put(OtherIncomeItemType.OVERTIME_COMPENSATION, -1 * overtimeCompensation) //negative number
-        totalCashExpense.toDouble += overtimeCompensation.toDouble
+        totalCashExpense.toLongn+= overtimeCompensation.toLong
 
 
         val allAirplanesDepreciation = airplanesByAirline.getOrElse(airline.id, List.empty).foldLeft(0L) {
