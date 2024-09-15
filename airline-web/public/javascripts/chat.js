@@ -127,7 +127,7 @@ angular.module("ChatApp", []).controller("ChatController", function($scope, $tim
 		wsProtocol = "ws:"
 		if (!port) {
 			// Change this for production
-			port = 9000
+			port = 80
 		}
 	}
 
