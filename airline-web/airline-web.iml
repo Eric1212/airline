@@ -212,7 +212,6 @@
     <orderEntry type="library" name="sbt: com.typesafe.akka:akka-parsing_2.13:10.1.8:jar" level="project" />
     <orderEntry type="library" name="sbt: com.typesafe.akka:akka-protobuf_2.13:2.5.32:jar" level="project" />
     <orderEntry type="library" name="sbt: com.typesafe.akka:akka-remote_2.13:2.5.32:jar" level="project" />
-    <orderEntry type="library" name="sbt: com.typesafe.akka:akka-slf4j_2.13:2.5.23:jar" level="project" />
     <orderEntry type="library" name="sbt: com.typesafe.akka:akka-stream_2.13:2.5.32:jar" level="project" />
     <orderEntry type="library" scope="TEST" name="sbt: com.typesafe.netty:netty-reactive-streams-http:2.0.3:jar" level="project" />
     <orderEntry type="library" scope="TEST" name="sbt: com.typesafe.netty:netty-reactive-streams:2.0.3:jar" level="project" />
@@ -389,5 +388,6 @@
     <orderEntry type="library" name="typesafe.play.play_2.13.0.M5" level="project" />
     <orderEntry type="module" module-name="airline" />
     <orderEntry type="module" module-name="airline-data" />
+    <orderEntry type="library" name="typesafe.akka.slf4j_2.13" level="project" />
   </component>
 </module>
