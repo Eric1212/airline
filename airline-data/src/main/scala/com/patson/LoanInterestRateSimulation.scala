@@ -1,11 +1,11 @@
 package com.patson
 
-import java.math.MathContext
-import scala.math._
 import com.patson.data._
 import com.patson.model.Bank
 import com.patson.model.bank.LoanInterestRate
+
 import java.io._
+import scala.math._
 import scala.util.Random
 
 object LoanInterestRateSimulation {
@@ -49,12 +49,10 @@ object LoanInterestRateSimulation {
 
     //the closer a change has been made the less likely it will change again
     val shouldChange =
-      if (cycleCount > 10) { //50% if > 10
-        Random.nextBoolean()
-      } else if (cycleCount > 5) { //otherwise 1/3
-        Random.nextInt(3) == 2
-      } else { //low chance
-        Random.nextInt(20) <= cycleCount
+      if (cycleCount == PREVIOUS_RATE_ENTRIES_TO_CONSIDER) { //Change on pair
+        true
+      } else { //Change probability increase gradually.
+        Random.nextInt(PREVIOUS_RATE_ENTRIES_TO_CONSIDER) <= cycleCount
       }
 
     if (shouldChange) { //now find out about the velocity

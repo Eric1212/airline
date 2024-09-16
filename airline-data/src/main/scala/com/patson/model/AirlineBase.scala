@@ -2,7 +2,6 @@ package com.patson.model
 
 import com.patson.data.{AirlineSource, AirportSource, CountrySource}
 import com.patson.model.AirlineBaseSpecialization.FlightTypeSpecialization
-import com.patson.util.AirportCache
 
 case class AirlineBase(airline : Airline, airport : Airport, countryCode : String, scale : Int, foundedCycle : Int, headquarter : Boolean = false) {
   lazy val getValue : Long = {
@@ -11,8 +10,8 @@ case class AirlineBase(airline : Airline, airport : Airport, countryCode : Strin
     } else if (headquarter && scale == 1) { //free to start HQ
       0
     } else {
-      var baseCost = (1000000 + airport.rating.overallRating * 120000).toLong
-      (baseCost * airportTypeMultiplier * airportSizeRatio * Math.pow (COST_EXPONENTIAL_BASE, (scale - 1) )).toLong
+      val baseCost = (1000000 + airport.rating.overallRating * 120000).toLong
+      (baseCost * airportTypeMultiplier * airportSizeRatio * Math.pow (COST_EXPONENTIAL_BASE, scale - 1 )).toLong
     }
   }
 
@@ -20,7 +19,7 @@ case class AirlineBase(airline : Airline, airport : Airport, countryCode : Strin
 
   lazy val getUpkeep : Long = {
     val adjustedScale = if (scale == 0) 1 else scale //for non-existing base, calculate as if the base is 1
-    var baseUpkeep = (3000 + airport.rating.overallRating * 150).toLong
+    val baseUpkeep = (3000 + airport.rating.overallRating * 150).toLong
 
     (baseUpkeep * airportTypeMultiplier * airportSizeRatio * Math.pow(COST_EXPONENTIAL_BASE, adjustedScale - 1)).toInt
   }
@@ -83,7 +82,7 @@ case class AirlineBase(airline : Airline, airport : Airport, countryCode : Strin
     }
   }
 
-  lazy val getStaffModifier : (FlightCategory.Value => Double) = flightCategory => {
+  lazy val getStaffModifier : FlightCategory.Value => Double = flightCategory => {
     val flightTypeSpecializations = specializations.filter(_.getType == BaseSpecializationType.FLIGHT_TYPE).map(_.asInstanceOf[FlightTypeSpecialization])
     if (flightTypeSpecializations.isEmpty) {
       1
@@ -113,7 +112,7 @@ case class AirlineBase(airline : Airline, airport : Airport, countryCode : Strin
 }
 
 object AirlineBase {
-  def getOfficeStaffCapacity(scale : Int, isHeadquarters : Boolean) = {
+  def getOfficeStaffCapacity(scale : Int, isHeadquarters : Boolean) : Long = {
     val base =
       if (isHeadquarters) {
         500
@@ -127,6 +126,6 @@ object AirlineBase {
       } else {
         47.5 * Math.pow(scale, 1.2)
       }
-    base + scaleBonus
+    base.toLong + scaleBonus.toLong
   }
 }
