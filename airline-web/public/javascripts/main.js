@@ -458,7 +458,7 @@ function updateTime(cycle, fraction, cycleDurationEstimation) {
 	//how much wall clock duration should be multiplied as game time duration
 	var timeMultiplier = cycleDurationEstimation > 0 ?
 	    totalmillisecPerWeek / cycleDurationEstimation :
-		totalmillisecPerWeek / (30 * 60 * 1000) //by default 30 minutes per week
+		totalmillisecPerWeek / (15 * 60 * 1000) //by default 15 minutes per week.
 
 
 	if (currentTickTimer) {
@@ -471,7 +471,6 @@ function updateTime(cycle, fraction, cycleDurationEstimation) {
         var wallClockDurationSinceStart = currentWallClock.getTime() - wallClockStart.getTime()
 
         var durationTillNextTick = initialDurationTillNextTick - wallClockDurationSinceStart
-
         var currentGameTime = gameTimeStart + wallClockDurationSinceStart * timeMultiplier
         var currentGameDate = new Date(currentGameTime)
         $(".currentTime").text("(" + days[currentGameDate.getDay()] + ") " + padBefore(currentGameDate.getMonth() + 1, "0", 2) + '/' + padBefore(currentGameDate.getDate(), "0", 2) +  " " + padBefore(currentGameDate.getHours(), "0", 2) + ":00")
