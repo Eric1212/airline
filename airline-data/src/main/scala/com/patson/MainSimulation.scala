@@ -1,20 +1,17 @@
-
-
 package com.patson
 
-import java.util.concurrent.TimeUnit
-import akka.actor.Props
-import akka.actor.Actor
+import akka.actor.{Actor, Props}
 import com.patson.data._
 import com.patson.stream.{CycleCompleted, CycleStart, SimulationEventStream}
-import com.patson.util.{AirlineCache, AirplaneOwnershipCache, AirplaneOwnershipInfo, AirportCache}
+import com.patson.util.{AirlineCache, AirplaneOwnershipCache, AirportCache}
 
+import java.util.concurrent.TimeUnit
 import scala.concurrent.Await
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.duration.Duration
 
 object MainSimulation extends App {
-  val CYCLE_DURATION : Int = 60 * 29
+  val CYCLE_DURATION : Int = 60 * 15 //15 minutes per cycle
   var currentWeek: Int = 0
 
 //  implicit val actorSystem = ActorSystem("rabbit-akka-stream")
@@ -121,7 +118,7 @@ object MainSimulation extends App {
     *
     */
   class MainSimulationActor extends Actor {
-    currentWeek = CycleSource.loadCycle()
+    currentWeek = CycleSource.loadCycle().toString.toInt
     def receive = {
       case Start =>
         status = SimulationStatus.IN_PROGRESS
