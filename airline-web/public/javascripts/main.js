@@ -456,7 +456,7 @@ function updateTime(cycle, fraction, cycleDurationEstimation) {
 	var wallClockStart = new Date()
 
 	//how much wall clock duration should be multiplied as game time duration
-	var timeMultiplier = cycleDurationEstimation > 0 ?
+	var timeMultiplier = cycleDurationEstimation > (20 * 60 * 1000) ?
 	    totalmillisecPerWeek / cycleDurationEstimation :
 		totalmillisecPerWeek / (15 * 60 * 1000) //by default 15 minutes per week.
 
