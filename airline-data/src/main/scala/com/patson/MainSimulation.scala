@@ -86,7 +86,7 @@ object MainSimulation extends App {
 
       val cycleEnd = System.currentTimeMillis()
       
-      println("cycle " + cycle + " spent " + (cycleEnd - cycleStartTime) / 1000 + " secs")
+      println(">>>>> cycle " + cycle + " spent " + (cycleEnd - cycleStartTime) / 1000 + " secs")
       cycleEnd
   }
 
