@@ -1,4 +1,5 @@
 #Move this script to the desired place, i personally put it on /root/ directory of my debian so it is available when login to terminal.
+# it's does require to install tmux on the server.
 echo "Clear OLD servers"
 tmux list-session
 tmux kill-session -t airline-data
@@ -9,8 +10,8 @@ tmux new-session -d -s airline-data
 tmux select-window -t airline-data:
 tmux send-keys "cd /var/www/flight.jcf.al/airline/airline-data/" Enter
 tmux send-keys "./start-data.sh" Enter
-echo "Waiting 20 seconds before starting Web Server"
-sleep 20
+echo "Waiting 30 seconds before starting Web Server"
+sleep 30
 tmux new-session -d -s airline-web
 tmux select-window -t airline-web:0
 tmux send-keys "cd /var/www/flight.jcf.al/airline/airline-web/" Enter
