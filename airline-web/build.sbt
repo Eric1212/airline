@@ -1,5 +1,5 @@
 name := """airline-web"""
-
+PlayKeys.devSettings := Seq("play.server.http.port" -> "80") //Define public Server port
 version := "1.0-SNAPSHOT"
 
 lazy val root = (project in file(".")).enablePlugins(PlayScala)
