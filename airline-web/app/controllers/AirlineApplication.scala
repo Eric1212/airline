@@ -302,15 +302,14 @@ class AirlineApplication @Inject()(cc: ControllerComponents) extends AbstractCon
     val requiredDelegates = airline.getBases().filter(_.countryCode == targetBase.countryCode).map(_.delegatesRequired).sum + upgradeDelegatesRequired
     println(s"requiredDelegates ${requiredDelegates}")
     if (cost > airline.getBalance && delegatesAssignedToThisCountry.length < requiredDelegates) {
-      return Some("Not enough cash to build/upgrade the base and it require $requiredDelegates delegate(s) assigned to ${CountryCache.getCountry(targetBase.countryCode).get.name} but only ${delegatesAssignedToThisCountry.length} assigned.")
+      return Some(s"Not enough cash to build/upgrade the base and it require $requiredDelegates delegate(s) assigned to ${CountryCache.getCountry(targetBase.countryCode).get.name} but only ${delegatesAssignedToThisCountry.length} assigned.")
     }
     else if (cost > airline.getBalance && delegatesAssignedToThisCountry.length <= requiredDelegates) {
-      return Some("Not enough cash to build/upgrade the base.")
+      return Some(s"Not enough cash to build/upgrade the base.")
     }
     else if (cost <= airline.getBalance && delegatesAssignedToThisCountry.length < requiredDelegates) {
-      return Some("Cannot build/upgrade this base, it require $requiredDelegates delegate(s) assigned to ${CountryCache.getCountry(targetBase.countryCode).get.name} but only ${delegatesAssignedToThisCountry.length} assigned.")
+      return Some(s"Cannot build/upgrade this base, it require $requiredDelegates delegate(s) assigned to ${CountryCache.getCountry(targetBase.countryCode).get.name} but only ${delegatesAssignedToThisCountry.length} assigned.")
     }
-
     if (targetBase.scale < 1) {
       return Some(s"Invalid scale ${targetBase.scale}")
     }
