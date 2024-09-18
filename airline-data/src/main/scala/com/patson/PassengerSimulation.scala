@@ -605,9 +605,15 @@ object PassengerSimulation {
               }
 
               if (previousLinkAirlineId == currentLinkAirlineId || allianceIdByAirlineId.get(previousLinkAirlineId) == allianceIdByAirlineId.get(currentLinkAirlineId)) { //same alliance or airline, 30 % less perceived cost
-                 connectionCost -= if (fromCost*0.3 <= 40) {fromCost*0.3+40} else {fromCost*0.3}// For small connexion, the original 10 $ is egnough.
+                 connectionCost -= {
+                   if (fromCost * 0.3 <= 40) {
+                     fromCost * 0.3 + 40
+                   } else {
+                     fromCost * 0.3
+                   }
+                 } // For small connection, the original 10 $ is enough
               }
-              
+
               //make transfert impose extra cost
               connectionCost += 40
               
