@@ -21,7 +21,7 @@ object LoanInterestRateSimulation {
 
     BankSource.saveLoanInterestRate(LoanInterestRate(nextRate, cycle))
     //purge 200 turns ago
-    BankSource.deleteLoanInterestRatesUpToCycle(cycle - 200)
+    BankSource.deleteLoanInterestRatesUpToCycle(cycle - 520)
   }
 
   val toBigDecimal : Double => BigDecimal =  (in: Double) => {

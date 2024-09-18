@@ -19,7 +19,7 @@ object BankSource {
     try {
       preparedStatement.setInt(1, loan.airlineId)
       preparedStatement.setLong(2, loan.principal)
-      preparedStatement.setBigDecimal(3, loan.annualRate.bigDecimal)
+      preparedStatement.setBigDecimal(4, loan.annualRate.bigDecimal)
       preparedStatement.setInt(4, loan.creationCycle)
       preparedStatement.setInt(5, loan.lastPaymentCycle)
       preparedStatement.setInt(6, loan.term)
@@ -160,7 +160,7 @@ object BankSource {
     try {
       val preparedStatement = connection.prepareStatement("REPLACE INTO " + LOAN_INTEREST_RATE_TABLE + "(rate, cycle) VALUES(?, ?)")
 
-      preparedStatement.setBigDecimal(1, rate.annualRate.bigDecimal)
+      preparedStatement.setBigDecimal(4, rate.annualRate.bigDecimal)
       preparedStatement.setInt(2, rate.cycle)
       preparedStatement.executeUpdate()
       preparedStatement.close()
