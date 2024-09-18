@@ -7,7 +7,7 @@ tmux kill-session -t airline-web
 tmux list-session
 echo "Starting Data Server"
 tmux new-session -d -s airline-data
-tmux select-window -t airline-data:
+tmux select-window -t airline-data:0
 tmux send-keys "cd /var/www/flight.jcf.al/airline/airline-data/" Enter
 tmux send-keys "./start-data.sh" Enter
 echo "Waiting 30 seconds before starting Web Server"
