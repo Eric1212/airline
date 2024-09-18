@@ -75,8 +75,9 @@ object AllianceEvent extends Enumeration {
 }
 
 object Alliance {
-  val MAX_MEMBER_COUNT = 8
+  val MAX_MEMBER_COUNT = 100
   val ESTABLISH_MIN_MEMBER_COUNT = 2
+
 
   val getReputationBonus: (Int => Double) = { (ranking: Int) =>
     if (ranking == 1) {
@@ -134,7 +135,11 @@ object Alliance {
             if (allianceMember.role == AllianceRole.APPLICANT) { //do not add champion points from applicant
               0
             } else {
-              BigDecimal(airportChampionsByAirlineId.get(allianceMember.airline.id).map(_.map(_.reputationBoost).sum).getOrElse(0.0))
+              if (BigDecimal(airportChampionsByAirlineId.get(allianceMember.airline.id).map(_.map(_.reputationBoost).sum).getOrElse(0.0)) >= 500) {
+                500
+              } else {
+                  BigDecimal(airportChampionsByAirlineId.get(allianceMember.airline.id).map(_.map(_.reputationBoost).sum).getOrElse(0.0))
+              }
             }
           //println(s"${allianceMember.airline.name} => " + memberChampionPoints)
           allianceChampionPoints = allianceChampionPoints + memberChampionPoints

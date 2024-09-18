@@ -592,7 +592,7 @@ object PassengerSimulation {
             } else if (predecessorLink.transportType == TransportType.GENERIC_TRANSIT && predecessorLink.from.id != passengerGroup.fromAirport.id) {
               connectionCost += 25 //middle "leave the airport" transit connections more expensive
             } else if (predecessorLink.transportType == TransportType.GENERIC_TRANSIT || linkConsideration.link.transportType == TransportType.GENERIC_TRANSIT) {
-              connectionCost = 0
+              connectionCost += 0
             } else {
 
               //now look at the frequency of the link arriving at this FromAirport and the link (current link) leaving this FromAirport. check frequency
@@ -605,7 +605,7 @@ object PassengerSimulation {
               }
 
               if (previousLinkAirlineId == currentLinkAirlineId || allianceIdByAirlineId.get(previousLinkAirlineId) == allianceIdByAirlineId.get(currentLinkAirlineId)) { //same alliance or airline, 30 % less perceived cost
-                 connectionCost -= fromCost*0.3
+                 connectionCost -= if (fromCost*0.3 <= 40) {fromCost*0.3+40} else {fromCost*0.3}// For small connexion, the original 10 $ is egnough.
               }
               
               //make transfert impose extra cost
