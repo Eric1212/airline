@@ -89,7 +89,7 @@ function updateNewLoanOptionsTable(loanOptions) {
 		var interestRate = loanOption.interestRate * 100
 		var row = $("<div class='table-row'></div>")
 		row.append("<div class='cell' align='right'>" + '$' + commaSeparateNumber(loanOption.borrowedAmount) + "</div>")
-		row.append("<div class='cell' align='right'>" + interestRate.toFixed(1)  + "%</div>")
+		row.append("<div class='cell' align='right'>" + interestRate.toFixed(2)  + "%</div>")
 		row.append("<div class='cell' align='right'>" + '$' + commaSeparateNumber(loanOption.interest) + "</div>")
 		row.append("<div class='cell' align='right'>" + '$' + commaSeparateNumber(loanOption.remainingAmount) + "</div>")
 		row.append("<div class='cell' align='right'>" + '$' + commaSeparateNumber(weeklyPayment) + " for " + loanOption.loanTerm + " weeks</div>")
@@ -173,7 +173,7 @@ function updateOutstandingLoansTable() {
 		var row = $("<div class='table-row'></div>")
 		row.append("<div class='cell' align='right'>" + '$' + commaSeparateNumber(loan.borrowedAmount) + "</div>")
 		row.append("<div class='cell' align='right'>" + '$' + commaSeparateNumber(loan.interest) + "</div>")
-		row.append("<div class='cell' align='right'>" + interestRate.toFixed(1) + "%</div>")
+		row.append("<div class='cell' align='right'>" + interestRate.toFixed(2) + "%</div>")
 		row.append("<div class='cell' align='right'>" + '$' + commaSeparateNumber(loan.remainingAmount) + "</div>")
 		row.append("<div class='cell' align='right'>" + '$' + commaSeparateNumber(loan.weeklyPayment) + " remaining " + loan.remainingTerm + " week(s)</div>")
 		row.append("<div class='cell' align='right'>" + '$' + commaSeparateNumber(loan.earlyRepaymentFee) + "</div>")
