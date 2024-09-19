@@ -59,6 +59,7 @@ jobs:
           script_stop: true
           script: |
             cd /var/www/${{ secrets.production_host }}/airline/airline-data/
+            tmux kill-session -t airline-data
             sbt clean publishLocal
       # killall -9 java
 
