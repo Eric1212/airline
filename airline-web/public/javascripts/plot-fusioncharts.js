@@ -1286,7 +1286,7 @@ function plotLoanInterestRatesChart(rates, container) {
 
 	$.each(rates, function(key, rate) {
 	    var annualRate = rate.rate * 100 //to percentage based
-		data.push({ value : annualRate.toFixed(1) })
+		data.push({ value : annualRate.toFixed(2) })
 		category.push({ "label" : rate.cycle.toString() })
 		total += annualRate
 		count ++;
