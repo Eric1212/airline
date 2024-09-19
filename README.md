@@ -10,6 +10,7 @@ Live at https://myfly.club/
 - Java openjdk 11
 - MySQL 8
 - Sbt
+- tmux
 
 ## Setup
 
