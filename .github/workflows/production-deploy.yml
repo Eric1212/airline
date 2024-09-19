@@ -59,7 +59,12 @@ jobs:
           script_stop: true
           script: |
             cd /var/www/${{ secrets.production_host }}/airline/airline-data/
-            tmux kill-session -t airline-data
+            tmux new-session -d -s TEMP
+            tmux select-window -t TEMP:0
+            tmux send-keys "tmux kill-session -t airline-data" Enter
+            tmux kill-session -t TEMP
             sbt clean publishLocal
+            cd /var/www/${{ secrets.production_host }}/airline/
+            ./start-airline.sh
       # killall -9 java
 
