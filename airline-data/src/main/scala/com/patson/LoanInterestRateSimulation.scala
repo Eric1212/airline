@@ -23,10 +23,6 @@ object LoanInterestRateSimulation {
     //purge 200 turns ago
     BankSource.deleteLoanInterestRatesUpToCycle(cycle - 520)
   }
-
-  val toBigDecimal : Double => BigDecimal =  (in: Double) => {
-    BigDecimal.valueOf(in).setScale(2)
-  }
   
   def getNextRate(previousRates : List[BigDecimal]) : BigDecimal = {
     if (previousRates.isEmpty) {
@@ -71,7 +67,7 @@ object LoanInterestRateSimulation {
   val MAX_DELTA : BigDecimal = 0.01 // rate can''t change more than 100 basis point per cycle.
   val RATE_STEP : BigDecimal = 0.0005 // 5 basis point is a step.
   val MIN_RATE : BigDecimal = -0.042 //min rate is -4,2%
-  val MAX_RATE = 0.42 //max rate is 42% annual
+  val MAX_RATE : BigDecimal = 0.42 //max rate is 42% annual
   val BOUNDARY_ZONE_FACTOR_LOW : BigDecimal = 0.13 //bottom 13% are considered outside of boundary
   val BOUNDARY_ZONE_FACTOR_HIGH : BigDecimal = 0.42 //top 42% are considered outside of boundary
   val BOUNDARY_ZONE_DELTA_ADJUSTMENT = 0.005 // 0.5% adjustment if it's considered in abnormal range (ie > HIGH or < LOW threshold)

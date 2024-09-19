@@ -1,10 +1,6 @@
 package com.patson.model
 
-import com.patson.data.BankSource
-import com.patson.data.IncomeSource
-import com.patson.data.CycleSource
-import com.patson.data.AirlineSource
-import com.patson.data.AirplaneSource
+import com.patson.data.{BankSource, CycleSource, IncomeSource}
 
 object Bank {
   val WEEKS_PER_YEAR = 52
@@ -64,8 +60,8 @@ object Bank {
       LOAN_TERMS.map { term =>
 
         val years = term / WEEKS_PER_YEAR
-        val baseAnnualRate = annualRate
-		val DEFAULT_ANNUAL_RATE : Double = 0.14 // 14% set for default plus used for define 20 years loan but more usage later planned.
+        val baseAnnualRate: BigDecimal = annualRate
+		val DEFAULT_ANNUAL_RATE : BigDecimal = 0.14 // 14% set for default plus used for define 20 years loan but more usage later planned.
 		val annualRateByTerm = ( ( ( DEFAULT_ANNUAL_RATE - baseAnnualRate ) / 1040 ) * term + baseAnnualRate ) // CACULATED FOR MAX TERM OF 20 YEARS!!!
         Loan(airlineId = 0, principal = principal, annualRate = annualRateByTerm, creationCycle = currentCycle, lastPaymentCycle = currentCycle, term = term)
       }
