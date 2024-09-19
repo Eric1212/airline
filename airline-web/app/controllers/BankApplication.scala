@@ -52,7 +52,7 @@ class BankApplication @Inject()(cc: ControllerComponents) extends AbstractContro
         Bank.getLoanOptions(requestedAmount).find( loanOption => loanOption.term == requestedTerm) match {
           case Some(loan) =>
             BankSource.saveLoan(loan.copy(airlineId = request.user.id, creationCycle = currentCycle))
-            AirlineSource.adjustAirlineBalance(request.user.id, loan.principal)
+            AirlineSource.adjustAirlineBalance(request.user.id, loan.principal.toLong)
             Ok(Json.toJson(loan)(new LoanWrites(currentCycle)))
           case None => BadRequest("Bad loan term [" + requestedTerm + "]")
         }
