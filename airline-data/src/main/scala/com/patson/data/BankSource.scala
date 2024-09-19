@@ -17,7 +17,7 @@ object BankSource {
     
     try {
       preparedStatement.setInt(1, loan.airlineId)
-      preparedStatement.setLong(2, loan.principal)
+      preparedStatement.setLong(2, loan.principal.toLong)
       preparedStatement.setBigDecimal(3, loan.annualRate.bigDecimal)
       preparedStatement.setInt(4, loan.creationCycle)
       preparedStatement.setInt(5, loan.lastPaymentCycle)
