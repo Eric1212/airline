@@ -642,11 +642,11 @@ case class NegotiationCashBonusTemplate(factor : Int) extends NegotiationBonusTe
   override def computeBonus(monetaryBaseValue : Long, delegates : List[BusyDelegate], airport : Airport) : NegotiationBonus = {
     val cash = if ((monetaryBaseValue * factor) <= 1000000) {1000000} else {monetaryBaseValue * factor}
     val description =
-      if (factor <= 1) {
+      if (cash <= 1500000) {
         s"The airport authority decided to provide a modest subsidy of $$${integerInstance.format(cash)}!"
-      } else if (factor <= 3) {
+      } else if (cash <= 3000000) {
         s"The airport authority decided to provide a sizable subsidy of $$${integerInstance.format(cash)}!"
-      } else if (factor <= 5) {
+      } else if (cash <= 5000000) {
         s"The airport authority decided to provide a large subsidy of $$${integerInstance.format(cash)}!"
       } else {
         s"The airport authority decided to provide a generous subsidy of $$${integerInstance.format(cash)}!"
