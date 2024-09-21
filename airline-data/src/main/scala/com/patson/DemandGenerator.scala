@@ -1,8 +1,8 @@
 package com.patson
 
 import com.patson.data._
-import com.patson.model._
 import com.patson.model.event.Olympics
+import com.patson.model._
 
 import java.util.concurrent.ThreadLocalRandom
 import java.util.{ArrayList, Collections}
@@ -162,20 +162,20 @@ object DemandGenerator {
     )
   }
 
-  //adds more demand, can't be over 5 000 and for smallest airport it's minimum 500 !
-  private def addToVeryLowIncome(fromPop: Long): Int = {
-    val minPop = 1e5
+  //adds more demand, can't be over 5000 and for smallest airport it's minimum 50 !
+  private def addsmallairportboost(fromPop: Long): Int = {
+    val minPop = 1e6
     val minDenominator = 15000
-    val supersmallboost = 500
+    val supersmallboost = 50
 
     val boost = if (fromPop <= minPop) {
-      ((fromPop / minDenominator)).toInt + supersmallboost.toInt
+      ((fromPop / minDenominator)+supersmallboost).toInt
     } else {
-      val logFactor = 1 + Math.log10(fromPop / minPop) / 0.3
+      val logFactor = 1 + Math.log10(fromPop / minPop)
       val adjustedDenominator = (minDenominator * logFactor)
-      (fromPop / adjustedDenominator).toInt + 8
+      (fromPop / adjustedDenominator + supersmallboost).toInt + 8
     }
-    Math.min(250, boost)
+    Math.min(5000, boost)
   }
 
 
@@ -229,16 +229,16 @@ object DemandGenerator {
       } else 1.0
 
     //set very low income floor, specifically traffic to/from central airports that is otherwise missing
-    val buffLowIncomeAirports = if (fromAirport.income <= 5000 && toAirport.income <= 8000 && distance <= 3000 && (toAirport.size >= 4 || fromAirport.size >= 4)) addToVeryLowIncome(fromAirport.population) else 0
+    val buffsmallAirportsLinkToLarge = if (toAirport.population >= 100000 || fromAirport.population >= 100000) addsmallairportboost(fromAirport.population) else 0
 
     val domesticDemandFloor = if (distance > 400 && distance < 1500 && affinity >= 5 &&
       ( toAirport.isGateway() || toAirport.size - fromAirport.size >= 6)) {
-      20 + ThreadLocalRandom.current().nextInt(40)
+      100 + ThreadLocalRandom.current().nextInt(40)
     } else {
       0
     }
 
-    val baseDemand : Double = Math.max(domesticDemandFloor, specialCountryModifier * airportAffinityMutliplier * fromPopIncomeAdjusted * toAirport.population.toDouble / 250_000 / 250_000) + buffLowIncomeAirports
+    val baseDemand : Double = Math.max(domesticDemandFloor, specialCountryModifier * airportAffinityMutliplier * fromPopIncomeAdjusted * toAirport.population.toDouble / 250_000 / 250_000) + buffsmallAirportsLinkToLarge
     (Math.pow(baseDemand, distanceReducerExponent)).toInt
   }
 
