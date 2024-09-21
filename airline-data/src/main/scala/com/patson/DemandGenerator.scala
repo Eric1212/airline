@@ -171,7 +171,7 @@ object DemandGenerator {
     val boost = if (fromPop <= minPop) {
       ((fromPop / minDenominator)).toInt + supersmallboost.toInt
     } else {
-      val logFactor = 1 + Math.log2(fromPop / minPop)
+      val logFactor = 1 + Math.log10(fromPop / minPop) / 0.3
       val adjustedDenominator = (minDenominator * logFactor)
       (fromPop / adjustedDenominator).toInt + supersmallboost.toInt
     }
