@@ -636,7 +636,7 @@ abstract class NegotiationBonusTemplate {
 
 case class NegotiationCashBonusTemplate(factor : Int) extends NegotiationBonusTemplate {
   val intensityCompute = factor / 2 + 1
-  val integerInstance = if (java.text.NumberFormat.getIntegerInstance <= 1000000) {
+  val integerInstance = if (java.text.NumberFormat.getIntegerInstance.toString.toInt <= 1000000) {
     1000000 }
   else {
     java.text.NumberFormat.getIntegerInstance
