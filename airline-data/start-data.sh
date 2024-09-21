@@ -1,2 +1,2 @@
 #This script is launching the data app to current shell.
-java -Dactivator.home=/var/www/flight.jcf.al/airline/airline-data -Dlog4j2.formatMsgNoLookups=true -Xms5000m -Xmx5000m -XX:MetaspaceSize=64m -XX:MaxMetaspaceSize=256m -jar /var/www/flight.jcf.al/airline/sbt-launch.jar "runMain com.patson.MainSimulation"
+java -Dactivator.home=/var/www/flight.jcf.al/airline/airline-data -Dlog4j2.formatMsgNoLookups=true -Xms10000m -Xmx10000m -XX:+UseG1GC -XX:MetaspaceSize=500m -XX:MaxMetaspaceSize=5000m -jar /var/www/flight.jcf.al/airline/sbt-launch.jar "runMain com.patson.MainSimulation"

@@ -172,9 +172,9 @@ object PassengerSimulation {
         if (consumptionCycleCount < 4) 3
         else if (consumptionCycleCount < 6) 4
         else if (consumptionCycleCount < 9) 5
-        else if (consumptionCycleCount < 14) 8
-        else if (consumptionCycleCount < 19) 12
-        else 20
+        else if (consumptionCycleCount < 14) 6
+        else if (consumptionCycleCount < 19) 8
+        else 10
       val allRoutesMap = mutable.HashMap[PassengerGroup, Map[Airport, Route]]()
 
       //start consuming routes
