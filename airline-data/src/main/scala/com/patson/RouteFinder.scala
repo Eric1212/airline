@@ -2,7 +2,7 @@ package com.patson
 
 
 object RouteFinder {
-  private[this] val MAX_LINKS = 20
+  private[this] val MAX_LINKS = 10
   
 //  def findRoute1(links : Seq[Link], fromId : Int, toId : Int) : Seq[Seq[Link]] = {
 //    val allLinksByFromAirport = links.flatMap { link => Seq(link, link.copy(from = link.to, to = link.from))  }.groupBy { _.from.id }

@@ -2,20 +2,21 @@
 
 package com.patson
 
-import com.patson.data._
+import java.util.{ArrayList, Collections}
+import java.util.concurrent.atomic.AtomicInteger
+import com.patson.data.{AirlineSource, AirportSource, AllianceSource, CountrySource, CycleSource, LinkSource}
 import com.patson.model.AirlineBaseSpecialization.BrandSpecialization
-import com.patson.model.FlightPreferenceType._
+import com.patson.model.FlightType.Value
 import com.patson.model._
+import FlightPreferenceType._
 
 import java.util
-import java.util.concurrent.atomic.AtomicInteger
-import java.util.{ArrayList, Collections}
 import scala.collection.immutable.List._
 import scala.collection.mutable
 import scala.collection.mutable.{ListBuffer, Set}
+import scala.util.Random
 import scala.collection.parallel.CollectionConverters._
 import scala.jdk.CollectionConverters._
-import scala.util.Random
 
 object PassengerSimulation {
 
@@ -70,7 +71,7 @@ object PassengerSimulation {
   def passengerConsume[T <: Transport](demand : List[(PassengerGroup, Airport, Int)], links : List[T]) : PassengerConsumptionResult = {
     val consumptionResult = Collections.synchronizedList(new ArrayList[(PassengerGroup, Airport, Int, Route)]())
     val missedDemandChunks = Collections.synchronizedList(new ArrayList[(PassengerGroup, Airport, Int)]())
-    val consumptionCycleMax = 99; //try and rebuild routes 100 times
+    val consumptionCycleMax = 24; //try and rebuild routes 25 times
     var consumptionCycleCount = 0;
     //start consumption cycles
 
@@ -142,7 +143,7 @@ object PassengerSimulation {
       println(s"available links: ${availableLinks.size} of ${links.size}")
       
       val (filteredDemandChunks, demandChunksForLater) =
-        if (consumptionCycleCount >= 8) { //don't ticket everyone to start
+        if (consumptionCycleCount >= 4) { //don't ticket everyone to start
           demandChunks.partition {
             case (_, _, chunkSize) => chunkSize > minSeats
           }
@@ -173,8 +174,7 @@ object PassengerSimulation {
         else if (consumptionCycleCount < 6) 4
         else if (consumptionCycleCount < 9) 5
         else if (consumptionCycleCount < 14) 8
-        else if (consumptionCycleCount < 19) 12
-        else 20
+        else 10
       val allRoutesMap = mutable.HashMap[PassengerGroup, Map[Airport, Route]]()
 
       //start consuming routes
@@ -304,8 +304,8 @@ object PassengerSimulation {
 
   val ROUTE_COST_TOLERANCE_FACTOR = 1.5
   val LINK_COST_TOLERANCE_FACTOR = 0.925
-  val LINK_DISTANCE_TOLERANCE_FACTOR = 1.6+0.4
-  val ROUTE_DISTANCE_TOLERANCE_FACTOR = 3.0+7.0
+  val LINK_DISTANCE_TOLERANCE_FACTOR = 1.6
+  val ROUTE_DISTANCE_TOLERANCE_FACTOR = 3.0
 
 
   object RouteRejectionReason extends Enumeration {
@@ -612,10 +612,10 @@ object PassengerSimulation {
 
               if (previousLinkAirlineId == currentLinkAirlineId || allianceIdByAirlineId.get(previousLinkAirlineId) == allianceIdByAirlineId.get(currentLinkAirlineId)) { //same alliance or airline, 30 % less perceived cost
                  connectionCost -= {
-                   if (fromCost * 0.5 <= 40) {
-                     fromCost * 0.5 + 40
+                   if (fromCost * 0.3 <= 40) {
+                     fromCost * 0.3 + 40
                    } else {
-                     fromCost * 0.5
+                     fromCost * 0.3
                    }
                  } // For small connection, the original 10 $ is enough
               }
@@ -629,7 +629,7 @@ object PassengerSimulation {
     
            if (flightTransit) { //if one airline (no transfer)) then should be treated as same airline or alliance.
            } else {
-             connectionCost -= fromCost*0.5
+             connectionCost -= fromCost*0.3
             }
           
             //connection cost should take into consideration of preferred link class too
