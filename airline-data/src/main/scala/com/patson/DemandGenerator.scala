@@ -169,11 +169,11 @@ object DemandGenerator {
     val supersmallboost = 5
 
     val boost = if (fromPop <= minPop) {
-      ((fromPop / minDenominator)+supersmallboost).toInt
+      ((fromPop / minDenominator)).toInt + supersmallboost.toInt
     } else {
       val logFactor = 1 + Math.log10(fromPop / minPop)
       val adjustedDenominator = (minDenominator * logFactor)
-      (fromPop / adjustedDenominator + supersmallboost).toInt + 8
+      (fromPop / adjustedDenominator).toInt + supersmallboost.toInt
     }
     Math.min(5000, boost)
   }
@@ -233,7 +233,7 @@ object DemandGenerator {
 
     val domesticDemandFloor = if (distance > 400 && distance < 1500 && affinity >= 5 &&
       ( toAirport.isGateway() || toAirport.size - fromAirport.size >= 6)) {
-      100 + ThreadLocalRandom.current().nextInt(40)
+      20 + ThreadLocalRandom.current().nextInt(40)
     } else {
       0
     }
