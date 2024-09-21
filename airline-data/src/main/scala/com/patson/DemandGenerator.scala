@@ -162,11 +162,11 @@ object DemandGenerator {
     )
   }
 
-  //adds more demand, can't be over 5000 and for smallest airport it's minimum 10 !
+  //adds more demand, can't be over 5000 and for smallest airport it's minimum 1 !
   private def addsmallairportboost(fromPop: Long): Int = {
     val minPop = 1e6
     val minDenominator = 15000
-    val supersmallboost = 5
+    val supersmallboost = 1
 
     val boost = if (fromPop <= minPop) {
       ((fromPop / minDenominator)).toInt + supersmallboost.toInt
