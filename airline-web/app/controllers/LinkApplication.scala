@@ -952,7 +952,7 @@ class LinkApplication @Inject()(cc: ControllerComponents) extends AbstractContro
 
         val flightType = Computation.getFlightType(fromAirport, toAirport)
 
-        if (!toAirport.isGateway() && toAirport.size <= 2 && FlightType.getCategory(flightType) == FlightCategory.INTERNATIONAL ) {
+        if (!toAirport.isGateway() && toAirport.size < 2 && FlightType.getCategory(flightType) == FlightCategory.INTERNATIONAL ) {
           val currentTitle = CountryAirlineTitle.getTitle(toAirport.countryCode, airline)
           val requiredTitle = Title.PRIVILEGED_AIRLINE
           val ok = currentTitle.title.id <= requiredTitle.id //smaller value means higher title
@@ -960,7 +960,7 @@ class LinkApplication @Inject()(cc: ControllerComponents) extends AbstractContro
             return Some("Destination airport is too small to serve international destinations.", REQUIRES_CUSTOMS)
           }
         }
-        if (!fromAirport.isGateway() && fromAirport.size <= 2 && FlightType.getCategory(flightType) == FlightCategory.INTERNATIONAL) {
+        if (!fromAirport.isGateway() && fromAirport.size < 2 && FlightType.getCategory(flightType) == FlightCategory.INTERNATIONAL) {
           val currentTitle = CountryAirlineTitle.getTitle(toAirport.countryCode, airline)
           val requiredTitle = Title.PRIVILEGED_AIRLINE
           val ok = currentTitle.title.id <= requiredTitle.id //smaller value means higher title

@@ -1,27 +1,23 @@
 package com.patson
 
-import java.util.{ArrayList, Collections}
-import com.patson.data.{AirportSource, CountrySource, CycleSource, DestinationSource, EventSource}
-import com.patson.model.event.{EventType, Olympics}
-import com.patson.model.{PassengerType, _}
-import com.patson.model.AirportFeatureType.{AirportFeatureType, DOMESTIC_AIRPORT, FINANCIAL_HUB, GATEWAY_AIRPORT, INTERNATIONAL_HUB, ISOLATED_TOWN, OLYMPICS_IN_PROGRESS, OLYMPICS_PREPARATIONS, UNKNOWN, VACATION_HUB}
+import com.patson.data._
+import com.patson.model.event.Olympics
+import com.patson.model._
 
 import java.util.concurrent.ThreadLocalRandom
-import scala.collection.immutable.Map
-import scala.collection.mutable
+import java.util.{ArrayList, Collections}
 import scala.collection.mutable.ListBuffer
 import scala.collection.parallel.CollectionConverters._
-import scala.util.Random
 
 
 object DemandGenerator {
 
-  val FIRST_CLASS_INCOME_MAX = 125_000
+  val FIRST_CLASS_INCOME_MAX = 1_000_000
   val FIRST_CLASS_PERCENTAGE_MAX: Map[PassengerType.Value, Double] = Map(PassengerType.TRAVELER -> 0, PassengerType.BUSINESS -> 0.12, PassengerType.TOURIST -> 0, PassengerType.ELITE -> 1, PassengerType.OLYMPICS -> 0)
-  val BUSINESS_CLASS_INCOME_MAX = 125_000
+  val BUSINESS_CLASS_INCOME_MAX = 100_000
   val BUSINESS_CLASS_PERCENTAGE_MAX: Map[PassengerType.Value, Double] = Map(PassengerType.TRAVELER -> 0.16, PassengerType.BUSINESS -> 0.49, PassengerType.TOURIST -> 0.1, PassengerType.ELITE -> 0, PassengerType.OLYMPICS -> 0.25)
   val DISCOUNT_CLASS_PERCENTAGE_MAX: Map[PassengerType.Value, Double] = Map(PassengerType.TRAVELER -> 0.38, PassengerType.BUSINESS -> 0.09, PassengerType.TOURIST -> 0.6, PassengerType.ELITE -> 0, PassengerType.OLYMPICS -> 0)
-  val MIN_DISTANCE = 50
+  val MIN_DISTANCE = 5
 //  val launchDemandFactor : Double = Math.min(1, (45 + CycleSource.loadCycle().toDouble / 24) / 100)
   val launchDemandFactor : Double = 1.0
   val demandRandomizer: Int = CycleSource.loadCycle() % 3
@@ -166,19 +162,20 @@ object DemandGenerator {
     )
   }
 
-  //adds more demand, up to 225
+  //adds more demand, can't be over 5 000 and for smallest airport it's minimum 500 !
   private def addToVeryLowIncome(fromPop: Long): Int = {
-    val minPop = 5e5
+    val minPop = 1e5
     val minDenominator = 15000
+    val supersmallboost = 500
 
     val boost = if (fromPop <= minPop) {
-      (fromPop / minDenominator).toInt
+      ((fromPop / minDenominator)+supersmallboost).toInt
     } else {
       val logFactor = 1 + Math.log10(fromPop / minPop)
       val adjustedDenominator = (minDenominator * logFactor)
       (fromPop / adjustedDenominator).toInt + 8
     }
-    Math.min(225, boost)
+    Math.min(5000, boost)
   }
 
 

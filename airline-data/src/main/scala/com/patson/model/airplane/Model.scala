@@ -1,7 +1,6 @@
 package com.patson.model.airplane
 
 import com.patson.model.IdObject
-import com.patson.model.Airline
 import com.patson.model.airplane.Model.Category
 import com.patson.util.AirplaneModelCache
 
@@ -182,7 +181,7 @@ Model("Airbus A220-100",	"Airbus A220",	135,	135,	7,	395,	828,	6390,	102858000,	
 Model("Airbus A220-300",	"Airbus A220",	160,	160,	8,	524,	828,	6700,	136989000,	1820,	21,	Manufacturer("Airbus",	countryCode="NL"),	1890,	imageUrl ="https://www.norebbo.com/2016/02/bombardier-cs300-blank-illustration-templates/"),
 Model("Airbus A220-500",	"Airbus A220",	190,	190,	8,	640,	828,	6100,	175119000,	1820,	30,	Manufacturer("Airbus",	countryCode="NL"),	2000,	imageUrl =""),
 Model("Airbus A300-600",	"Airbus A300/A310",	266,	266,	5,	1185,	833,	7500,	113925000,	1820,	54,	Manufacturer("Airbus",	countryCode="NL"),	2400,	imageUrl ="https://www.norebbo.com/2018/11/airbus-a300b4-600r-blank-illustration-templates-with-general-electric-engines/"),
-Model("Airbus A300B4",	"Airbus A300/A310",	345,	345,	5,	1450,	847,	5375,	156240000,	1820,	48,	Manufacturer("Airbus",	countryCode="NL"),	1950,	imageUrl ="https://www.norebbo.com/2018/11/airbus-a300b4-600r-blank-illustration-templates-with-general-electric-engines/"),
+Model("Airbus A300B4",	"Airbus A300/A310",	280,	280,	4,	1450,	847,	5375,	177782638,	1820,	48,	Manufacturer("Airbus",	countryCode="NL"),	1950,	imageUrl ="https://www.norebbo.com/2018/11/airbus-a300b4-600r-blank-illustration-templates-with-general-electric-engines/"),
 Model("Airbus A310-200",	"Airbus A300/A310",	240,	240,	6,	989,	850,	6400,	142383000,	1820,	54,	Manufacturer("Airbus",	countryCode="NL"),	1860,	imageUrl ="https://www.norebbo.com/2015/07/airbus-a310-300-blank-illustration-templates/"),
 Model("Airbus A310-300",	"Airbus A300/A310",	240,	240,	6,	989,	850,	8050,	150939000,	1820,	54,	Manufacturer("Airbus",	countryCode="NL"),	2000,	imageUrl ="https://www.norebbo.com/2015/07/airbus-a310-300-blank-illustration-templates/"),
 Model("Airbus A318",	"Airbus A320",	136,	136,	6,	480,	829,	7800,	63984000,	1820,	12,	Manufacturer("Airbus",	countryCode="NL"),	1780,	imageUrl ="https://www.norebbo.com/airbus-a318-blank-illustration-templates-with-pratt-whitney-and-cfm56-engines/"),

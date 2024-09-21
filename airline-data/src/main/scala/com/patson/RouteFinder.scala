@@ -1,15 +1,8 @@
 package com.patson
 
-import scala.collection.mutable.ArrayBuffer
-import com.patson.model.Link
-import scala.concurrent.Future
-import scala.concurrent.ExecutionContext.Implicits.global
-import scala.util.Success
-import scala.util.Failure
-
 
 object RouteFinder {
-  private[this] val MAX_LINKS = 3
+  private[this] val MAX_LINKS = 10
   
 //  def findRoute1(links : Seq[Link], fromId : Int, toId : Int) : Seq[Seq[Link]] = {
 //    val allLinksByFromAirport = links.flatMap { link => Seq(link, link.copy(from = link.to, to = link.from))  }.groupBy { _.from.id }

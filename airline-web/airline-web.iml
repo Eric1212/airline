@@ -390,5 +390,6 @@
     <orderEntry type="library" name="typesafe.akka.slf4j_2.13" level="project" />
     <orderEntry type="library" name="typesafe.akka.remote_2.12" level="project" />
     <orderEntry type="library" name="mchange.c3p0" level="project" />
+    <orderEntry type="library" name="scala.lang.modules.parallel.collections_2.13" level="project" />
   </component>
 </module>

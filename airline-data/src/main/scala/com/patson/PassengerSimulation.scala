@@ -11,6 +11,7 @@ import com.patson.model._
 import FlightPreferenceType._
 
 import java.util
+import scala.collection.immutable.List._
 import scala.collection.mutable
 import scala.collection.mutable.{ListBuffer, Set}
 import scala.util.Random
@@ -70,7 +71,7 @@ object PassengerSimulation {
   def passengerConsume[T <: Transport](demand : List[(PassengerGroup, Airport, Int)], links : List[T]) : PassengerConsumptionResult = {
     val consumptionResult = Collections.synchronizedList(new ArrayList[(PassengerGroup, Airport, Int, Route)]())
     val missedDemandChunks = Collections.synchronizedList(new ArrayList[(PassengerGroup, Airport, Int)]())
-    val consumptionCycleMax = 9; //try and rebuild routes 10 times
+    val consumptionCycleMax = 24; //try and rebuild routes 25 times
     var consumptionCycleCount = 0;
     //start consumption cycles
 
@@ -167,10 +168,13 @@ object PassengerSimulation {
 
 
       //og AC at 4, 5, 6
+      //MFC at 5-3, 7-4, 5
       val iterationCount =
-        if (consumptionCycleCount < 5) 3
-        else if (consumptionCycleCount < 7) 4
-        else 5
+        if (consumptionCycleCount < 4) 3
+        else if (consumptionCycleCount < 6) 4
+        else if (consumptionCycleCount < 9) 5
+        else if (consumptionCycleCount < 14) 8
+        else 10
       val allRoutesMap = mutable.HashMap[PassengerGroup, Map[Airport, Route]]()
 
       //start consuming routes
@@ -454,7 +458,9 @@ object PassengerSimulation {
    *
    */
   def findFurthestAirportDistance(fromAirport: Airport, toAirports: Set[Airport]): Int = {
-    val distances = toAirports.map(toAirport => Computation.calculateDistance(fromAirport, toAirport))
+    val distances = {
+      toAirports.map(toAirport => Computation.calculateDistance(fromAirport, toAirport))
+    }
     distances.maxOption.getOrElse(0)
   }
 

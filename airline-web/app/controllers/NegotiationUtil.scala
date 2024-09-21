@@ -21,7 +21,7 @@ object NegotiationUtil {
   val FREE_LINK_THRESHOLD = 5 //for newbie
   val FREE_LINK_FREQUENCY_THRESHOLD = 5
   val FREE_LINK_DIFFICULTY_THRESHOLD = 10
-  val GREAT_SUCCESS_THRESHOLD = 0.95 // 5%
+  val GREAT_SUCCESS_THRESHOLD = 0.9 // 10%
 
   def negotiate(info: NegotiationInfo, delegateCount: Int): NegotiationResult = {
     val odds = info.odds.get(delegateCount) match {
@@ -58,16 +58,16 @@ object NegotiationUtil {
 
   def getMaxFrequencyByGroup(baseScale : Int, flightTypeGroup : FlightTypeGroup.Value) : Int = {
     var maxFrequency = flightTypeGroup match {
-      case FlightTypeGroup.GROUP_1 => 4 + (baseScale * 2.5).toInt
-      case FlightTypeGroup.GROUP_2 => 5 + (baseScale * 2).toInt
-      case FlightTypeGroup.GROUP_3 => 6 + (baseScale * 1.5).toInt
+      case FlightTypeGroup.GROUP_1 => 16 + (baseScale * 17).toInt
+      case FlightTypeGroup.GROUP_2 => 13 + (baseScale * 6).toInt
+      case FlightTypeGroup.GROUP_3 => 4 + (baseScale * 1).toInt
     }
     // NEGOTIATION_EXPERT bonus
     if (baseScale >= 8) {
-      maxFrequency += (baseScale - 7) * 2
+      maxFrequency += (baseScale - 7) * 5
     }
     if (baseScale >= 11) { //accumulative with the >= 8 buff
-      maxFrequency += (baseScale - 10) * 2
+      maxFrequency += (baseScale - 10) * 5
     }
 
     maxFrequency
@@ -636,8 +636,11 @@ abstract class NegotiationBonusTemplate {
 
 case class NegotiationCashBonusTemplate(factor : Int) extends NegotiationBonusTemplate {
   val intensityCompute = factor / 2 + 1
-  val integerInstance = java.text.NumberFormat.getIntegerInstance
-
+  val integerInstance = if (java.text.NumberFormat.getIntegerInstance <= 1000000) {
+    1000000 }
+  else {
+    java.text.NumberFormat.getIntegerInstance
+    }
   override def computeBonus(monetaryBaseValue : Long, delegates : List[BusyDelegate], airport : Airport) : NegotiationBonus = {
     val cash = monetaryBaseValue * factor
     val description =
