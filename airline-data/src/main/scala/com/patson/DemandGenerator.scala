@@ -1,8 +1,8 @@
 package com.patson
 
 import com.patson.data._
-import com.patson.model.event.Olympics
 import com.patson.model._
+import com.patson.model.event.Olympics
 
 import java.util.concurrent.ThreadLocalRandom
 import java.util.{ArrayList, Collections}
@@ -162,11 +162,11 @@ object DemandGenerator {
     )
   }
 
-  //adds more demand, can't be over 5000 and for smallest airport it's minimum 50 !
+  //adds more demand, can't be over 5000 and for smallest airport it's minimum 10 !
   private def addsmallairportboost(fromPop: Long): Int = {
     val minPop = 1e6
     val minDenominator = 15000
-    val supersmallboost = 50
+    val supersmallboost = 10
 
     val boost = if (fromPop <= minPop) {
       ((fromPop / minDenominator)+supersmallboost).toInt
