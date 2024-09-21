@@ -166,7 +166,7 @@ object DemandGenerator {
   private def addsmallairportboost(fromPop: Long): Int = {
     val minPop = 1e6
     val minDenominator = 15000
-    val supersmallboost = 10
+    val supersmallboost = 5
 
     val boost = if (fromPop <= minPop) {
       ((fromPop / minDenominator)+supersmallboost).toInt
