@@ -70,7 +70,7 @@ object PassengerSimulation {
   def passengerConsume[T <: Transport](demand : List[(PassengerGroup, Airport, Int)], links : List[T]) : PassengerConsumptionResult = {
     val consumptionResult = Collections.synchronizedList(new ArrayList[(PassengerGroup, Airport, Int, Route)]())
     val missedDemandChunks = Collections.synchronizedList(new ArrayList[(PassengerGroup, Airport, Int)]())
-    val consumptionCycleMax = 999999; //try and rebuild routes 1M times
+    val consumptionCycleMax = 99; //try and rebuild routes 100 times
     var consumptionCycleCount = 0;
     //start consumption cycles
 
@@ -134,7 +134,7 @@ object PassengerSimulation {
       println(s"Run cycle $consumptionCycleCount for ${demandChunks.size} demand chunks")
 
       //using minSeats to have pax book together and decrease consumptions
-      val minSeats: Int = (consumptionCycleMax - consumptionCycleCount) % 3 * 4
+      val minSeats: Int = (consumptionCycleMax - consumptionCycleCount) % 11 * 4
       //remove links without enough seats
       val availableLinks = links.filter {
         _.getTotalAvailableSeats > minSeats * 3
