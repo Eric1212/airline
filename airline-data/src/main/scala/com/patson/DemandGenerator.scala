@@ -8,6 +8,7 @@ import java.util.concurrent.ThreadLocalRandom
 import java.util.{ArrayList, Collections}
 import scala.collection.mutable.ListBuffer
 import scala.collection.parallel.CollectionConverters._
+import scala.math._
 
 
 object DemandGenerator {
@@ -20,7 +21,7 @@ object DemandGenerator {
   val MIN_DISTANCE = 5
 //  val launchDemandFactor : Double = Math.min(1, (45 + CycleSource.loadCycle().toDouble / 24) / 100)
   val launchDemandFactor : Double = 1.0
-  val demandRandomizer: Int = CycleSource.loadCycle() % 3
+  val demandRandomizer: Int = ceil(((CycleSource.loadCycle() % Pi^Pi) - 1)/13).toInt
 
   import scala.collection.JavaConverters._
 
