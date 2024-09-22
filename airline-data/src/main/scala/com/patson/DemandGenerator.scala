@@ -1,8 +1,8 @@
 package com.patson
 
 import com.patson.data._
-import com.patson.model.event.Olympics
 import com.patson.model._
+import com.patson.model.event.Olympics
 
 import java.util.concurrent.ThreadLocalRandom
 import java.util.{ArrayList, Collections}
@@ -21,7 +21,8 @@ object DemandGenerator {
   val MIN_DISTANCE = 5
 //  val launchDemandFactor : Double = Math.min(1, (45 + CycleSource.loadCycle().toDouble / 24) / 100)
   val launchDemandFactor : Double = 1.0
-  val demandRandomizer: Int = ceil(((CycleSource.loadCycle() % Pi^Pi) - 1)/13).toInt
+  val demandRandomizer : Int = {Math.ceil(((CycleSource.loadCycle() % Math.pow(Math.PI, Math.PI)).toInt - 1) / 13).toInt}
+
 
   import scala.collection.JavaConverters._
 
@@ -90,11 +91,12 @@ object DemandGenerator {
             LinkClass.values.foreach { linkClass =>
               if (demand(linkClass) > 0) {
                 var remainingDemand = demand(linkClass)
-                var demandChunkSize = baseDemandChunkSize + ThreadLocalRandom.current().nextInt(baseDemandChunkSize)
+                val MaxChunkSize = baseDemandChunkSize * 5
+                var demandChunkSize = if (remainingDemand < MaxChunkSize) { remainingDemand } else { baseDemandChunkSize }
                 while (remainingDemand > demandChunkSize) {
                   allDemandChunks.append((PassengerGroup(fromAirport, flightPreferencesPool.draw(passengerType, linkClass, fromAirport, toAirport), passengerType), toAirport, demandChunkSize))
                   remainingDemand -= demandChunkSize
-                  demandChunkSize = baseDemandChunkSize + ThreadLocalRandom.current().nextInt(baseDemandChunkSize)
+                  demandChunkSize = if (remainingDemand < MaxChunkSize) { remainingDemand } else { baseDemandChunkSize }
                 }
                 allDemandChunks.append((PassengerGroup(fromAirport, flightPreferencesPool.draw(passengerType, linkClass, fromAirport, toAirport), passengerType), toAirport, remainingDemand)) // don't forget the last chunk
               }
