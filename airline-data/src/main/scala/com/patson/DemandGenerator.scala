@@ -229,7 +229,7 @@ object DemandGenerator {
       } else 1.0
 
     //set very low income floor, specifically traffic to/from central airports that is otherwise missing
-    val buffLowIncomeAirports = if (fromAirport.population >= 100000 || toAirport.population >= 100000)) addToVeryLowIncome(fromAirport.population) else 0
+    val buffLowIncomeAirports = if (fromAirport.population >= 100000 || toAirport.population >= 100000) addToVeryLowIncome(fromAirport.population) else 0
 
     val domesticDemandFloor = if (distance > 400 && distance < 1500 && affinity >= 5 &&
       ( toAirport.isGateway() || toAirport.size - fromAirport.size >= 6)) {
