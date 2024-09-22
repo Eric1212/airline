@@ -163,17 +163,17 @@ object DemandGenerator {
   }
 
   //adds more demand, can't be over 250 and for smallest airport it's minimum 50 !
-  private def addToVeryLowIncome(fromPop: Long): Int = {
+  private def addToVeryLowIncome(fromAirport : Airport) : Int = {
     val minPop = 1e6
     val minDenominator = 15000
     val supersmallboost = 50
 
-    val boost = if (fromPop <= minPop) {
-      (fromPop / minDenominator).toInt + supersmallboost.toInt
+    val boost = if (fromAirport.population <= minPop) {
+      (fromAirport.population / minDenominator).toInt + supersmallboost.toInt
     } else {
-      val logFactor = 1 + Math.log10(fromPop / minPop) / 0.3
+      val logFactor = 1 + Math.log10(fromAirport.population / minPop) / 0.3
       val adjustedDenominator = (minDenominator * logFactor)
-      (fromPop / adjustedDenominator).toInt + supersmallboost.toInt
+      (fromAirport.population / adjustedDenominator).toInt + supersmallboost.toInt
     }
     Math.min(250, boost)
   }
@@ -229,7 +229,7 @@ object DemandGenerator {
       } else 1.0
 
     //set very low income floor, specifically traffic to/from central airports that is otherwise missing
-    val buffLowIncomeAirports = if (fromAirport.population >= 100000 || toAirport.population >= 100000) addToVeryLowIncome(fromAirport.population) else 0
+    val buffLowIncomeAirports = if (fromAirport.population >= 100000 || toAirport.population >= 100000) addToVeryLowIncome(fromAirport) else 0
 
     val domesticDemandFloor = if (distance > 400 && distance < 1500 && affinity >= 5 &&
       ( toAirport.isGateway() || toAirport.size - fromAirport.size >= 6)) {
