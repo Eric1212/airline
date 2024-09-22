@@ -70,7 +70,7 @@ object PassengerSimulation {
   def passengerConsume[T <: Transport](demand : List[(PassengerGroup, Airport, Int)], links : List[T]) : PassengerConsumptionResult = {
     val consumptionResult = Collections.synchronizedList(new ArrayList[(PassengerGroup, Airport, Int, Route)]())
     val missedDemandChunks = Collections.synchronizedList(new ArrayList[(PassengerGroup, Airport, Int)]())
-    val consumptionCycleMax = 999; //try and rebuild routes 1000 times
+    val consumptionCycleMax = 329; //try and rebuild routes 329 times
     var consumptionCycleCount = 0;
     //start consumption cycles
 
@@ -142,7 +142,7 @@ object PassengerSimulation {
       println(s"available links: ${availableLinks.size} of ${links.size}")
       
       val (filteredDemandChunks, demandChunksForLater) =
-        if (consumptionCycleCount >= 11) { //don't ticket everyone to start
+        if (consumptionCycleCount >= 307) { //don't ticket everyone to start
           demandChunks.partition {
             case (_, _, chunkSize) => chunkSize > minSeats
           }
@@ -169,15 +169,15 @@ object PassengerSimulation {
       //og AC at 4, 5, 6
       //MFC at 5-3, 7-4, 5
       val iterationCount =
-        if (consumptionCycleCount < 1) 1
-        else if (consumptionCycleCount < 2) 2
-        else if (consumptionCycleCount < 3) 3
-        else if (consumptionCycleCount < 4) 4
-        else if (consumptionCycleCount < 5) 5
-        else if (consumptionCycleCount < 6) 6
-        else if (consumptionCycleCount < 7) 7
-        else if (consumptionCycleCount < 8) 8
-        else if (consumptionCycleCount < 9) 9
+        if (consumptionCycleCount < 33) 1
+        else if (consumptionCycleCount < 66) 2
+        else if (consumptionCycleCount < 99) 3
+        else if (consumptionCycleCount < 132) 4
+        else if (consumptionCycleCount < 165) 5
+        else if (consumptionCycleCount < 198) 6
+        else if (consumptionCycleCount < 231) 7
+        else if (consumptionCycleCount < 264) 8
+        else if (consumptionCycleCount < 297) 9
         else 10
       val allRoutesMap = mutable.HashMap[PassengerGroup, Map[Airport, Route]]()
 
