@@ -70,7 +70,7 @@ object PassengerSimulation {
   def passengerConsume[T <: Transport](demand : List[(PassengerGroup, Airport, Int)], links : List[T]) : PassengerConsumptionResult = {
     val consumptionResult = Collections.synchronizedList(new ArrayList[(PassengerGroup, Airport, Int, Route)]())
     val missedDemandChunks = Collections.synchronizedList(new ArrayList[(PassengerGroup, Airport, Int)]())
-    val consumptionCycleMax = 99; //try and rebuild routes 100 times
+    val consumptionCycleMax = 999; //try and rebuild routes 1000 times
     var consumptionCycleCount = 0;
     //start consumption cycles
 
@@ -142,7 +142,7 @@ object PassengerSimulation {
       println(s"available links: ${availableLinks.size} of ${links.size}")
       
       val (filteredDemandChunks, demandChunksForLater) =
-        if (consumptionCycleCount >= 4) { //don't ticket everyone to start
+        if (consumptionCycleCount >= 11) { //don't ticket everyone to start
           demandChunks.partition {
             case (_, _, chunkSize) => chunkSize > minSeats
           }
@@ -169,10 +169,15 @@ object PassengerSimulation {
       //og AC at 4, 5, 6
       //MFC at 5-3, 7-4, 5
       val iterationCount =
-        if (consumptionCycleCount < 4) 3
-        else if (consumptionCycleCount < 6) 4
-        else if (consumptionCycleCount < 9) 5
-        else if (consumptionCycleCount < 14) 8
+        if (consumptionCycleCount < 1) 1
+        else if (consumptionCycleCount < 2) 2
+        else if (consumptionCycleCount < 3) 3
+        else if (consumptionCycleCount < 4) 4
+        else if (consumptionCycleCount < 5) 5
+        else if (consumptionCycleCount < 6) 6
+        else if (consumptionCycleCount < 7) 7
+        else if (consumptionCycleCount < 8) 8
+        else if (consumptionCycleCount < 9) 9
         else 10
       val allRoutesMap = mutable.HashMap[PassengerGroup, Map[Airport, Route]]()
 
