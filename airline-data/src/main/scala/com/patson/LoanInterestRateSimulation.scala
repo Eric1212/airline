@@ -20,7 +20,7 @@ object LoanInterestRateSimulation {
     }
 
     BankSource.saveLoanInterestRate(LoanInterestRate(nextRate, cycle))
-    //purge 200 turns ago
+    //purge 520 turns ago
     BankSource.deleteLoanInterestRatesUpToCycle(cycle - 520)
   }
   

@@ -103,7 +103,7 @@ class BankApplication @Inject()(cc: ControllerComponents) extends AbstractContro
 
   def getLoanInterestRates() = Action {
     val currentCycle = CycleSource.loadCycle()
-    val rates = BankSource.loadLoanInterestRatesFromCycle(currentCycle - 100).sortBy(_.cycle)
+    val rates = BankSource.loadLoanInterestRatesFromCycle(currentCycle - 520).sortBy(_.cycle)
     Ok(Json.toJson(rates))
   }
 }
