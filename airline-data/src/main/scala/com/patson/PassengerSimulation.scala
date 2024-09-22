@@ -2,21 +2,20 @@
 
 package com.patson
 
-import java.util.{ArrayList, Collections}
-import java.util.concurrent.atomic.AtomicInteger
-import com.patson.data.{AirlineSource, AirportSource, AllianceSource, CountrySource, CycleSource, LinkSource}
+import com.patson.data._
 import com.patson.model.AirlineBaseSpecialization.BrandSpecialization
-import com.patson.model.FlightType.Value
+import com.patson.model.FlightPreferenceType._
 import com.patson.model._
-import FlightPreferenceType._
 
 import java.util
+import java.util.concurrent.atomic.AtomicInteger
+import java.util.{ArrayList, Collections}
 import scala.collection.immutable.List._
 import scala.collection.mutable
 import scala.collection.mutable.{ListBuffer, Set}
-import scala.util.Random
 import scala.collection.parallel.CollectionConverters._
 import scala.jdk.CollectionConverters._
+import scala.util.Random
 
 object PassengerSimulation {
 
@@ -612,10 +611,10 @@ object PassengerSimulation {
 
               if (previousLinkAirlineId == currentLinkAirlineId || allianceIdByAirlineId.get(previousLinkAirlineId) == allianceIdByAirlineId.get(currentLinkAirlineId)) { //same alliance or airline, 30 % less perceived cost
                  connectionCost -= {
-                   if (fromCost * 0.3 <= 40) {
-                     fromCost * 0.3 + 40
+                   if (fromCost * 0.5 <= 40) {
+                     fromCost * 0.5 + 40
                    } else {
-                     fromCost * 0.3
+                     fromCost * 0.5
                    }
                  } // For small connection, the original 10 $ is enough
               }
@@ -629,7 +628,7 @@ object PassengerSimulation {
     
            if (flightTransit) { //if one airline (no transfer)) then should be treated as same airline or alliance.
            } else {
-             connectionCost -= fromCost*0.3
+             connectionCost -= fromCost*0.5
             }
           
             //connection cost should take into consideration of preferred link class too
