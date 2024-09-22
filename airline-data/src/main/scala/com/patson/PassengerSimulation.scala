@@ -475,7 +475,7 @@ object PassengerSimulation {
                     countryOpenness : Map[String, Int] = PassengerSimulation.countryOpenness,
                     establishedAllianceIdByAirlineId : java.util.Map[Int, Int] = Collections.emptyMap[Int, Int](),
                     externalCostModifier : Option[CostModifier] = None,
-                    iterationCount : Int = 4) : Map[Airport, Route] = {
+                    iterationCount : Int = 10) : Map[Airport, Route] = {
 
     val preferredLinkClass = passengerGroup.preference.preferredLinkClass
     //remove links that's unknown to this airport then compute cost for each link. Cost is adjusted by the PassengerGroup's preference
