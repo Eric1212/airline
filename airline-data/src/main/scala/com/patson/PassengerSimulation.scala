@@ -2,6 +2,7 @@
 
 package com.patson
 
+import akka.remote.transport.ThrottlerTransportAdapter.Direction.Both.includes
 import com.patson.data._
 import com.patson.model.AirlineBaseSpecialization.BrandSpecialization
 import com.patson.model.FlightPreferenceType._
@@ -70,7 +71,7 @@ object PassengerSimulation {
   def passengerConsume[T <: Transport](demand : List[(PassengerGroup, Airport, Int)], links : List[T]) : PassengerConsumptionResult = {
     val consumptionResult = Collections.synchronizedList(new ArrayList[(PassengerGroup, Airport, Int, Route)]())
     val missedDemandChunks = Collections.synchronizedList(new ArrayList[(PassengerGroup, Airport, Int)]())
-    val consumptionCycleMax = 230; //try and rebuild routes 230 times
+    val consumptionCycleMax = 29; //try and rebuild routes 230 times
     var consumptionCycleCount = 0;
     //start consumption cycles
 
@@ -134,7 +135,12 @@ object PassengerSimulation {
       println(s"Run cycle $consumptionCycleCount for ${demandChunks.size} demand chunks")
 
       //using minSeats to have pax book together and decrease consumptions
-      val minSeats: Int = (consumptionCycleMax - consumptionCycleCount) % 11 * 4
+      // val minSeats: Int = (consumptionCycleMax - consumptionCycleCount) % 11 * 4
+      val minSeats =
+        if (consumptionCycleCount < 10) 44
+      else if (consumptionCycleCount < 20) 8
+      else 0
+
       //remove links without enough seats
       val availableLinks = links.filter {
         _.getTotalAvailableSeats > minSeats * 3
@@ -142,7 +148,7 @@ object PassengerSimulation {
       println(s"available links: ${availableLinks.size} of ${links.size}")
       
       val (filteredDemandChunks, demandChunksForLater) =
-        if (consumptionCycleCount >= 208) { //don't ticket everyone to start
+        if (List(9, 19, 29).contains(consumptionCycleCount) { //don't ticket everyone outside this range
           demandChunks.partition {
             case (_, _, chunkSize) => chunkSize > minSeats
           }
@@ -169,15 +175,15 @@ object PassengerSimulation {
       //og AC at 4, 5, 6
       //MFC at 5-3, 7-4, 5
       val iterationCount =
-        if (consumptionCycleCount < 22) 1
-        else if (consumptionCycleCount < 44) 2
-        else if (consumptionCycleCount < 66) 3
-        else if (consumptionCycleCount < 88) 4
-        else if (consumptionCycleCount < 110) 5
-        else if (consumptionCycleCount < 132) 6
-        else if (consumptionCycleCount < 154) 7
-        else if (consumptionCycleCount < 176) 8
-        else if (consumptionCycleCount < 198) 9
+        if (List(0, 10, 20).contains(consumptionCycleCount) 1
+        else if (List(1, 11, 21).contains(consumptionCycleCount) 2
+        else if (List(2, 12, 22).contains(consumptionCycleCount) 3
+        else if (List(3, 13, 23).contains(consumptionCycleCount) 4
+        else if (List(4, 14, 24).contains(consumptionCycleCount) 5
+        else if (List(5, 15, 25).contains(consumptionCycleCount) 6
+        else if (List(6, 16, 26).contains(consumptionCycleCount) 7
+        else if (List(7, 17, 27).contains(consumptionCycleCount) 8
+        else if (List(8, 18, 28).contains(consumptionCycleCount) 9
         else 10
       val allRoutesMap = mutable.HashMap[PassengerGroup, Map[Airport, Route]]()
 
