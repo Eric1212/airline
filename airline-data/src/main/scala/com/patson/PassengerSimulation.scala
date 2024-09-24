@@ -148,7 +148,7 @@ object PassengerSimulation {
       println(s"available links: ${availableLinks.size} of ${links.size}")
       
       val (filteredDemandChunks, demandChunksForLater) =
-        if (List(9, 19, 29).contains(consumptionCycleCount) { //don't ticket everyone outside this range
+        if (List(9, 19, 29).contains(consumptionCycleCount)) { //don't ticket everyone outside this range
           demandChunks.partition {
             case (_, _, chunkSize) => chunkSize > minSeats
           }
