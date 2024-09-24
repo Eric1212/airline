@@ -2,7 +2,6 @@
 
 package com.patson
 
-import akka.remote.transport.ThrottlerTransportAdapter.Direction.Both.includes
 import com.patson.data._
 import com.patson.model.AirlineBaseSpecialization.BrandSpecialization
 import com.patson.model.FlightPreferenceType._
@@ -175,15 +174,15 @@ object PassengerSimulation {
       //og AC at 4, 5, 6
       //MFC at 5-3, 7-4, 5
       val iterationCount =
-        if (List(0, 10, 20).contains(consumptionCycleCount) 1
-        else if (List(1, 11, 21).contains(consumptionCycleCount) 2
-        else if (List(2, 12, 22).contains(consumptionCycleCount) 3
-        else if (List(3, 13, 23).contains(consumptionCycleCount) 4
-        else if (List(4, 14, 24).contains(consumptionCycleCount) 5
-        else if (List(5, 15, 25).contains(consumptionCycleCount) 6
-        else if (List(6, 16, 26).contains(consumptionCycleCount) 7
-        else if (List(7, 17, 27).contains(consumptionCycleCount) 8
-        else if (List(8, 18, 28).contains(consumptionCycleCount) 9
+        if (List(0, 10, 20).contains(consumptionCycleCount)) 1
+        else if (List(1, 11, 21).contains(consumptionCycleCount)) 2
+        else if (List(2, 12, 22).contains(consumptionCycleCount)) 3
+        else if (List(3, 13, 23).contains(consumptionCycleCount)) 4
+        else if (List(4, 14, 24).contains(consumptionCycleCount)) 5
+        else if (List(5, 15, 25).contains(consumptionCycleCount)) 6
+        else if (List(6, 16, 26).contains(consumptionCycleCount)) 7
+        else if (List(7, 17, 27).contains(consumptionCycleCount)) 8
+        else if (List(8, 18, 28).contains(consumptionCycleCount)) 9
         else 10
       val allRoutesMap = mutable.HashMap[PassengerGroup, Map[Airport, Route]]()
 
