@@ -30,10 +30,10 @@ object Bank {
     val previousMonthCycle = currentCycle - currentCycle % 4 - 1
     
     val creditFromProfit : Option[Double] = IncomeSource.loadIncomeByAirline(airlineId, previousMonthCycle, Period.MONTHLY).map(_.links.profit * 13 * 20 * 0.6)  // 20 year link profit with 60 % coverage of futur payment at current profit.
-    
+    val creditFromProfitDouble : Double = creditFromProfit.getOrElse(0L)
     val totalAssets = Computation.getResetAmount(airlineId).overall
     val creditFromAssets = (totalAssets * 0.8).toLong //offer 80% of the assets as credit
-    val totalCredit = scala.math.min(creditFromAssets, scala.math.round(creditFromProfit.getOrElse(0L)).toLong)
+    val totalCredit = scala.math.min(creditFromAssets, scala.math.round(creditFromProfitDouble).toLong)
     
     val liability = existingLoans.map(_.remainingPayment(currentCycle)).sum
     
