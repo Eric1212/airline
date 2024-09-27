@@ -29,7 +29,7 @@ object Bank {
     //base on previous month
     val previousMonthCycle = currentCycle - currentCycle % 4 - 1
     
-    val creditFromProfit : Option[Long] = IncomeSource.loadIncomeByAirline(airlineId, previousMonthCycle, Period.MONTHLY).map(_.links.profit * 13 * 20 * 0.6)  // 20 year link profit with 60 % coverage of futur payment at current profit.
+    val creditFromProfit : Option[Double] = IncomeSource.loadIncomeByAirline(airlineId, previousMonthCycle, Period.MONTHLY).map(_.links.profit * 13 * 20 * 0.6)  // 20 year link profit with 60 % coverage of futur payment at current profit.
     
     val totalAssets = Computation.getResetAmount(airlineId).overall
     val creditFromAssets = (totalAssets * 0.8).toLong //offer 80% of the assets as credit
@@ -40,7 +40,7 @@ object Bank {
     val availableLoanAmount = Math.min(totalCredit - liability, Math.max(MAX_LOAN_AMOUNT - liability, 0))
     
     if (availableLoanAmount >= MIN_LOAN_AMOUNT) {
-      LoanReply(availableLoanAmount, None)
+      LoanReply(availableLoanAmount.toLong, None)
     } else {
       LoanReply(0, Some("Lending you money is considered too high risk."))
     }
