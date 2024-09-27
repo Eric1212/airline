@@ -29,11 +29,11 @@ object Bank {
     //base on previous month
     val previousMonthCycle = currentCycle - currentCycle % 4 - 1
     
-    val creditFromProfit : Option[Long] = IncomeSource.loadIncomeByAirline(airlineId, previousMonthCycle, Period.MONTHLY).map(_.links.profit * 13 * 2 / 1)  // 2 year link profit with 100 % coverage of futur payment at current profit.
+    val creditFromProfit : Option[Long] = IncomeSource.loadIncomeByAirline(airlineId, previousMonthCycle, Period.MONTHLY).map(_.links.profit * 13 * 20 * 0.6)  // 20 year link profit with 60 % coverage of futur payment at current profit.
     
     val totalAssets = Computation.getResetAmount(airlineId).overall
-    val creditFromAssets = (totalAssets * 0.2).toLong //offer 20% of the assets as credit
-    val totalCredit = creditFromAssets + creditFromProfit.getOrElse(0L)
+    val creditFromAssets = (totalAssets * 0.8).toLong //offer 80% of the assets as credit
+    val totalCredit = math.min(creditFromAssets, creditFromProfit.getOrElse(0L))
     
     val liability = existingLoans.map(_.remainingPayment(currentCycle)).sum
     
