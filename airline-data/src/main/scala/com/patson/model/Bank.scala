@@ -33,7 +33,7 @@ object Bank {
     
     val totalAssets = Computation.getResetAmount(airlineId).overall
     val creditFromAssets = (totalAssets * 0.8).toLong //offer 80% of the assets as credit
-    val totalCredit = scala.math.min(creditFromAssets, creditFromProfit.getOrElse(0L).toLong)
+    val totalCredit = scala.math.min(creditFromAssets, scala.math.round(creditFromProfit.getOrElse(0L)).toLong)
     
     val liability = existingLoans.map(_.remainingPayment(currentCycle)).sum
     
